@@ -1,0 +1,27 @@
+#!/usr/local/bin/ruby
+require 'dbm'
+
+# Get the integer value associated with a key (default to 0)
+def ivalue(dbm,key)
+  (dbm[key] || 0).to_i
+end
+
+# Increment the integer value associated with a key.
+def increment(dbm,key)
+  dbm[key] = ivalue(dbm, key)+1
+end
+
+visits = DBM.new('visits')
+remote = ENV['REMOTE_ADDR'].to_s
+increment(visits, remote)
+increment(visits, 'total')
+
+pct = (ivalue(visits,remote) * 100.0) / ivalue(visits,'total')
+printf "You seem to be responsible for %.1f%% ",  pct
+puts   "of the traffic on this page."
+
+if pct < 10.0
+  puts "Please visit more often."
+else
+  puts "Don't you have anything better to do?"
+end

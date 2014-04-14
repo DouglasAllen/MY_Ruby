@@ -1,0 +1,4 @@
+<html><body>
+<!--#exec cmd="last-visit.rb" -->
+<p>Actual content of the page would go here.</p>
+</body></html>

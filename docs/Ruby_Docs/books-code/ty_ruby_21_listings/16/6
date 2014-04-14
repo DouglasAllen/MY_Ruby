@@ -1,0 +1,65 @@
+#!/usr/local/bin/ruby
+
+# kill-slackers
+#
+# Gather information about database application clients,
+# sort sessions in order of decreasing idle time,
+# present them to be killed at admin's whim.
+
+def main
+  who_lines = `who -Ru`.split("\n")
+  sessions = `ps -ef| grep /hdata/app`.split("\n").
+           map {|line| Session.new(line,who_lines)}
+  sessions.sort! {|s1,s2| s2.idle <=> s1.idle}
+  sessions.each do |s|
+    puts s         # display session info
+    print "\n Say 'k' to kill, 'q' to quit, or Enter to skip... "
+    input = gets.upcase.chomp
+    break if input == 'Q'
+    s.kill if input == 'K'
+  end
+end
+
+class Session
+  def initialize(ps_line,who_lines)
+    tokens = ps_line.split
+    @user_id = tokens[0]
+    @process_id = tokens[1]
+
+    # Get extra info from the "who" command, if a matching line exists.
+    tty = tokens[5]
+    who_line = who_lines.find {|l| (l.split)[1] == tty}
+    if who_line.nil?
+      @ip = @samba_info = @idle ="N/A"
+    else
+      who_tokens = who_line.split
+      @idle = who_tokens[5]
+      @ip = who_tokens[7]
+      s_inf = `nmblookup -A #{@ip}`.split("\n")
+      s_inf = s_inf[2..-2]  if s_inf.size>3   # discard header/footer
+      @samba_info = s_inf.join("\n")
+    end
+  end
+
+  def idle  # return number of minutes idle
+    case @idle
+    when /(\d+):(\d+)/
+      ($1.to_i)*60 + ($2.to_i)  # specific time was given
+    when /old/i
+      24*60                     # at least one day
+    else
+      0                         # under one minute
+    end
+  end
+
+  def kill
+    system("kill #{@process_id}")
+  end
+
+  def to_s
+    "\n User: %s  Idle: %s  Address: %s\n Samba info:\n%s" %
+      [@user_id, @idle, @ip, @samba_info]
+  end
+end
+
+main

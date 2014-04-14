@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'gtk'; include Gtk
+
+win = Window.new
+win.signal_connect('destroy') {main_quit}
+
+btn = Button.new('Click me, please.')
+win.add btn
+
+first_click = true
+btn.signal_connect('clicked') do
+  if first_click
+    btn.child.set_text('Thanks!')
+    first_click = false
+  else
+    main_quit
+  end
+end
+
+win.show_all
+main

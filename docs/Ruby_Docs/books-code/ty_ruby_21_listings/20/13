@@ -1,0 +1,48 @@
+#!/usr/local/bin/ruby
+
+require 'cgi'
+
+Cookie_name = 'macademia'
+Form_name   = 'userIDform'
+One_week    = 60*60*24*7    # a week, in seconds
+
+page = CGI.new('html3')
+
+# We'll accept two forms of identification.
+fresh_ID  = page[Form_name].first
+cookie = page.cookies[Cookie_name].first
+old_ID = CGI::Cookie.parse(cookie)['userID'].first if cookie
+
+# Use newly entered ID if available ...
+if fresh_ID
+  cookie = CGI::Cookie.new( {'name'  => Cookie_name,
+                        'value' => ["userID=#{fresh_ID}"],
+                        'path'  => '/',
+                        'expires' => Time.now + One_week
+                      })
+  page.out('cookie' => [cookie]) {
+    page.html {
+      page.h2 {"Hello, new user #{fresh_ID}."}
+    }
+  }
+
+# Failing that, try one taken from the cookie jar.
+elsif old_ID
+  page.out {
+    page.html {
+      page.h2 {"Hello, established user #{old_ID}."}+
+      page.p {"A little cookie told me who you were."}
+    }
+  }
+
+# By now, we think this is the first visit, or cookies are disabled,
+# or we had a cookie on this user's machine but it expired.  So let's
+# ask who the user is.
+else
+  page.out {
+    page.html {
+      page.p { "Kindly identify yourself." } +
+      page.form { page.text_field( Form_name ) }
+    }
+  }
+end

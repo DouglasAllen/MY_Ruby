@@ -1,0 +1,23 @@
+class Array
+  def mysort
+    copy = self.dup
+    all_done = false  # the bubblesort completion flag
+    until all_done
+      all_done = true
+      (copy.size-1).times do |idx|
+        if block_given?
+          if (yield copy[idx], copy[idx+1]) == 1
+            all_done = false
+            copy[idx], copy[idx+1] = copy[idx+1], copy[idx]
+          end
+        else
+          if (copy[idx] <=> copy[idx+1]) == 1
+            all_done = false
+            copy[idx], copy[idx+1] = copy[idx+1], copy[idx]
+          end
+        end
+      end
+    end     # end of "until" loop
+    copy    # Return the sorted copy.
+  end
+end

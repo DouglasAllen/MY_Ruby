@@ -1,0 +1,15 @@
+#!/usr/local/bin/ruby
+
+require 'cgi'
+page = CGI.new 'html3'
+page.out {
+  page.html {
+    page.head { page.title {"cgi test"} } +
+    page.body {
+      page.h1 {'Environment variables'} +
+        page.table {
+        ENV.map{ |k,v| page.tr{page.td{k}+page.td{v}} }.join
+      }
+    }
+  }
+}

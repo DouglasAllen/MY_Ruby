@@ -1,0 +1,17 @@
+#!/usr/local/bin/ruby
+
+require 'dbm'
+
+unless (remote = ENV["REMOTE_ADDR"]).nil?
+  accesses = DBM.open("accesses")
+
+  last = accesses[remote]
+
+  if last.nil?
+    puts "Apparently you have never visited this site!"
+  else
+    puts "You last visited this site at time #{last}."
+  end
+
+  accesses[remote] = Time.now.to_s
+end

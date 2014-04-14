@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+# chat_initiate.rb:
+# "Dial the phone", and carry on a conversation 
+# with the chat_listen script.
+
+require 'socket'
+
+port = 10002
+
+session = TCPSocket.new("localhost", port)
+
+begin
+  loop do
+    inmsg = session.gets
+    print ">> ",inmsg
+
+    outmsg = STDIN.gets;  break if outmsg.nil?
+    session.puts outmsg
+  end
+ensure
+  session.close
+end

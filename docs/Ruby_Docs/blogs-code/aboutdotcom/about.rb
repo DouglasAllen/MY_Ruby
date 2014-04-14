@@ -1,0 +1,1 @@
+system 'open http://ruby.about.com/'

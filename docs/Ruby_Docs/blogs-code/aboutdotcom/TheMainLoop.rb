@@ -1,0 +1,1 @@
+# http://ruby.about.com/od/gameprogramming/ss/gameprog1.htm

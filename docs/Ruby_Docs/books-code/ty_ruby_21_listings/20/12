@@ -1,0 +1,22 @@
+#!/usr/local/bin/ruby
+
+require 'cgi'
+
+page = CGI.new 'html3'
+username = page['ID_entry'].first
+if username.nil?
+  page.out {
+    page.html{
+      page.p { "Please identify yourself:" } +
+        page.form {
+        page.text_field( "ID_entry" )
+      }
+    }
+  }
+else
+  page.out {
+    page.html {
+      "hello, #{username}."
+    }
+  }
+end

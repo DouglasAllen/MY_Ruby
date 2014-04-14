@@ -1,0 +1,116 @@
+#!/usr/bin/env ruby
+
+require "tk"
+
+class Calculator < TkRoot
+
+  class Digit < TkButton
+    def initialize(calc, frame, digit)
+      super(frame, "text" => digit.to_s)
+      pack "side" => "left"
+      background "navyblue"
+      foreground "white"
+      command proc { calc.handle_digit(digit) }
+    end
+  end
+
+  class Button < TkButton
+    def initialize(calc, frame, label, function)
+      super(frame, "text" => label)
+      background "darkgreen"
+      foreground "white"
+      pack
+      command proc { calc.handle_button(function) }
+    end
+  end
+
+  class ClearButton < TkButton
+    def initialize(calc, frame)
+      super(frame, "text" => "Clear")
+      background "darkgreen"
+      foreground "white"
+      pack
+      command proc { calc.clear }
+    end
+  end
+
+  def initialize
+    title "Calculator"
+    number_frame  = TkFrame.new(self) { pack "side" => "left"  }
+    @button_frame = TkFrame.new(self) { pack "side" => "right" }
+    @display = TkLabel.new(number_frame) do
+      text "0"
+      border 3
+      justify 'right'
+      background "darkslategrey"
+      foreground "lightgoldenrod"
+      pack "side" => "top", "expand" => "yes", "fill" => "x"
+    end
+    @number_rows = []
+    4.times do
+      @number_rows.push(TkFrame.new(number_frame) do
+                          pack "expand"=>"yes", "fill"=>"x"
+                        end)
+    end
+
+    ClearButton.new(self, @number_rows[3]) do
+      background "darkslategrey"
+      foreground "yellow4"
+      pack "side" => "left", "expand" => "yes", "fill" => "both"
+    end
+
+    clear
+  end
+
+  def clear
+    @accumulator = @current_value = 0
+    @pending_function = nil
+    @display.configure("text" => "0")
+  end
+
+  def add_digit(digit)
+    frame = (9 - digit)/3
+    Digit.new(self, @number_rows[frame], digit)
+  end
+
+  def add_button(label, &fn)
+    Button.new(self, @button_frame, label, fn)
+  end
+
+  def run
+    (0..9).each {|d| add_digit(d) }
+    add_button("+") {|a,b| a+b}
+    add_button("-") {|a,b| a-b}
+    add_button("*") {|a,b| a*b}
+    add_button("/") {|a,b| a/b}
+    add_button("=") {|a,b| a}
+    Tk.mainloop
+  end
+
+  # action handlers
+
+  def handle_digit(digit)
+    if @clear_next_time
+      @current_value = 0
+      @clear_next_time = false
+    end
+    @current_value = @current_value * 10 + digit
+    @display.configure("text" => @current_value.to_s)
+  end
+
+  def handle_button(function)
+    if @pending_function
+      @accumulator = @pending_function.call(@accumulator, 
+                                            @current_value)
+    else
+      @accumulator = @current_value
+    end
+    @pending_function = function
+    @display.configure("text" => @accumulator.to_s)
+    @clear_next_time = true
+  end
+
+end
+
+calc = Calculator.new
+calc.run

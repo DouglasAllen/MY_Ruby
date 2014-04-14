@@ -1,0 +1,20 @@
+<html>
+<head><title>Short-term memory</title></head>
+<body>
+
+<h1>Pick a number</h1>
+<center>
+<form>
+  <select name="choice">
+    <option value="one">one</value>
+    <option value="two">two</value>
+    <option value="three">three</value>
+  </select>
+  <input value="go" type="submit">
+</form>
+<hr>
+Your previous choice was: 
+<!--#exec cmd="/usr/local/bin/ruby choice.rb"-->
+<center>
+
+</body></html>

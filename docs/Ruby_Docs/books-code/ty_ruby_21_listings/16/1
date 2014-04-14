@@ -1,0 +1,17 @@
+def permutations( word )
+  len = word.length
+  if len > 1
+    result = []
+    (0...len).each do |idx|
+      front = word[idx,1]
+      remaining_chars = word[0,idx]+word[idx+1,len-(idx+1)]
+      perms_of_remaining = permutations(remaining_chars)
+      recombined = perms_of_remaining.map{ |w| front + w }
+      result |= recombined
+    end
+    result
+  else 
+    [word]
+  end
+end
+

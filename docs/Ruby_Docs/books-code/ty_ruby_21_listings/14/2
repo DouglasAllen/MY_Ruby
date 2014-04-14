@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+class Secretive
+  def initialize
+    @r = rand
+  end
+end
+
+class Inquisitive
+  def getSecret(other)
+    other.instance_eval('puts "My secret number is #{@r}"')
+  end
+end
+
+sec = Secretive.new
+inq = Inquisitive.new
+inq.getSecret(sec)

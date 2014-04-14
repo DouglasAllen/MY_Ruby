@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+class Secretive
+  def initialize
+    @r = rand
+  end
+end
+
+class Inquisitive
+  def getSecret(other, context)
+    # Temporarily attach a "sing" method to the Secretive class.
+    code_1 = "class Secretive\n "+
+             "  def sing\n "+
+             "    puts \"My secret number is \#{@r}\"\n"+
+             "  end\n" +
+             "end\n"
+    eval(code_1,context)
+
+    # Invoke the method.
+    other.sing
+
+    # Now get rid of the method.
+    code_2 = "class Secretive\n"+
+             "  remove_method :sing\n"+
+             "end\n"
+    eval(code_2,context)
+  end
+end
+
+    
+sec = Secretive.new
+inq = Inquisitive.new
+inq.getSecret(sec, binding)

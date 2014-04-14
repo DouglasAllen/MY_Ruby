@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+class Secretive
+  def initialize
+    @r = rand
+  end
+
+  def follow(procedure)
+    procedure.call
+  end
+end
+
+class Inquisitive
+  def getSecret(other)
+    do_this = proc {puts "My secret number is #{@r}"}
+    other.follow(do_this)
+  end
+end
+    
+sec=Secretive.new
+inq=Inquisitive.new
+inq.getSecret (sec)

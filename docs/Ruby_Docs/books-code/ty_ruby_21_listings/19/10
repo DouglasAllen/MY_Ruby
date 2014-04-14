@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+# thread_webserver.rb:
+# Serves multiple clients simultaneously, with only one process.
+
+require 'socket'
+
+def main
+  listener = TCPServer.new("localhost", (ARGV[0]||80).to_i)
+
+  loop do
+    session = listener.accept
+    Thread.new(session) do |s|
+      
+      # Get a request from the client
+      req = nil
+      session.each do |line|
+        if line =~ /^GET (.+) HTTP/
+          req = $1
+        end
+        break if line.strip.empty?
+      end
+      
+      # Honor the request if possible
+      if req 
+        session.puts http_file("." + req)
+      else
+        session.puts error_page("eh?", "I didn't understand that.")
+      end
+      
+      s.close
+    end
+  end
+end
+
+Header = "HTTP/1.1 200/OK\nContent-type: text/html\r\n\r\n"
+
+def error_page(title,message)
+  Header +
+    "<html><head><title>#{title}</title></head>\n" +
+    "<body><b>Error:</b> #{message}</body></html>\n"
+end
+
+def http_file(filename)
+  if filename =~ /\.\./
+    return error_page 'Bad Request', '".." in URL not allowed'
+  else
+    begin
+      f = File.open(filename,"r")
+      contents = f.read
+      f.close
+      Header + contents
+    rescue
+      error_page 'File Error', $!.to_s.gsub(/\n/, "<br>")
+    end
+  end
+end
+
+main

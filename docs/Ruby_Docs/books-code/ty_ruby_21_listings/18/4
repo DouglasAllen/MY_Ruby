@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require 'gtk'; include Gtk
+
+def newrow(exp, fill, pad)
+  h = HBox.new
+  [ "expand=#{exp}, fill=#{fill}, pad=#{pad}",
+    '1', '2', '3' ].each do |msg|
+    h.pack_end(Button.new(msg),exp,fill,pad)
+  end
+  h
+end
+
+window = Window.new
+window.set_title('Test of packing options')
+window.signal_connect('destroy') {main_quit}
+window.set_default_size(350,100)
+
+window.add(vb=VBox.new)
+vb.add(newrow(false,false,0))
+vb.add(newrow(true,false,0))
+vb.add(newrow(true,true,0))
+vb.add(newrow(true,true,5))
+
+window.show_all
+main

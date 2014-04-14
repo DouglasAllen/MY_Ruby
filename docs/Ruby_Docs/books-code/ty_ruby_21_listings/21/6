@@ -1,0 +1,86 @@
+# TkChat class for implementing Tk-based peer chat scripts.
+
+require 'tk'
+require 'socket'
+require 'thread'    # because we'll need a mutex
+
+class TkChat
+
+  def initialize(socket, window_title)
+    @socket = socket
+    @append_mutex = Mutex.new
+
+    # Create the input and output area frames.
+    root = TkRoot.new {title window_title}
+    outframe = TkFrame.new(root).
+      pack('side'=>'top','fill'=>'both', 'expand'=>true)
+    inframe = TkFrame.new(root).
+      pack('side'=>'bottom','fill'=>'both')
+
+    # Create the various widgets.
+    inbox = TkEntry.new(inframe)
+    input_text = TkVariable.new
+    inbox.textvariable input_text
+    @outbox = TkText.new(outframe) {fg 'white'; bg 'black';
+      font '-*-times-r-*-*--*-180-*-*-*-*-*-*';
+      width 30; height 10; state 'disable'; wrap 'word'}
+    @bar = TkScrollbar.new(outframe)
+    send_btn = TkButton.new(inframe) {text 'Send'}
+    quit_btn = TkButton.new(inframe) {text 'Quit'}
+
+    # Define actions for buttons, and bind Return key with sending.
+    send_msg = proc do
+      message = window_title + ': ' + input_text.value + "\n"
+      inbox.delete(0, 'end')
+      append(message, 'white')
+      socket.puts message
+    end
+    send_btn.command send_msg
+    quit_btn.command 'exit'
+    root.bind('Return') {send_msg.call}
+
+    # Associate the actions of the listbox and slider bar.
+    @bar.command(proc {|args| @outbox.yview *args})
+    @outbox.yscrollcommand(proc {|first, last| @bar.set(first, last)})
+
+    # Pack the widgets.
+    inbox.pack('side'=>'top', 'fill'=>'both', 'expand'=>true).focus
+    send_btn.pack('side'=>'left')
+    quit_btn.pack('side'=>'right')
+    @outbox.pack('side'=>'left', 'fill'=>'both', 'expand'=>true)
+    @bar.pack('side'=>'right', 'fill'=>'both')
+
+    # Start the thread that will receive messages from the peer.
+    @msg_acceptor = Thread.new do
+      loop do
+        message = @socket.gets
+        append(message,'yellow')
+      end
+    end
+  end
+
+  def stop
+    @msg_acceptor.kill   # Stop the listening thread.
+    @socket.close
+  end
+
+  private
+  def append(msg,color)
+    # The mutex ensures that only one thread at a time
+    # can insert text.
+    @append_mutex.synchronize do
+      tag = TkTextTag.new(@outbox, {'foreground'=>color})
+      @outbox.configure('state', 'normal')
+      @outbox.insert('end', msg, tag)
+      @outbox.configure('state', 'disable')
+    end
+    # If conversation has strayed off the bottom of the window,
+    # automatically scroll downward.
+    @outbox.yview('moveto', 1)
+    first,last = @bar.get
+    if (offset = 1.0 - last) > 0
+      @bar.set(first+offset, 1.0)
+    end
+  end
+
+end

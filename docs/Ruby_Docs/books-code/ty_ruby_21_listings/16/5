@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+# Usage: unjumble-magically.rb token dictionary_filename
+
+def char_sorted(str)  str.split('').sort.join  end
+
+target = char_sorted(ARGV[0])
+File.foreach(ARGV[1]) do |w|
+  w.chop!
+  puts w if char_sorted(w) == target
+end

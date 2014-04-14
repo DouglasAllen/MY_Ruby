@@ -1,0 +1,10 @@
+#!/usr/local/bin/ruby
+
+loop do
+  out = File.new("/home/www/docs/index.html","w")
+  out.puts "<html><body>"
+  out.puts "Time: <b>#{Time.now}</b><br>"
+  out.puts "</body></html>"
+  out.close
+  sleep 60
+end

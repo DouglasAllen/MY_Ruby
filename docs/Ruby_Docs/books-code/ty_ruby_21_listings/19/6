@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+# chat_listen.rb:
+# "Answer the phone", and carry on a conversation with
+# the caller (whoever it is, presumably chat_initiate)
+
+require 'socket'
+
+port = 10002
+
+listener = TCPServer.new(port)
+session = listener.accept
+listener.close
+
+session.puts "Start talking.  It's your nickel."
+
+begin
+  loop do
+    inmsg = session.gets
+    print ">> ",inmsg
+
+    outmsg = STDIN.gets;  break if outmsg.nil?
+    session.print outmsg
+  end
+ensure
+  session.close
+end

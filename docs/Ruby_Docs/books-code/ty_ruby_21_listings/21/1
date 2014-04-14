@@ -1,0 +1,186 @@
+# bdt.rb
+
+# Simplified binary decision trees.
+#
+# Classes
+#   BDT: A binary decision tree, which knows how to make
+#     a classification based on the user's answers to
+#     its questions
+#   BDT_leaf < BDT: leaf node
+#   BDT_internal < BDT: internal node
+#   BDT_sample: Single training sample comprising
+#     a classification and a set of attributes
+#   BDT_set: A set of BDTSamples, which knows how
+#     to build a decision tree out of itself
+#
+# Temporary enhancements to the Array class
+#   #sum
+#   #info_content
+
+
+# Methods to extend the Array class.
+class Array
+  L2 = Math.log(2)  # a useful constant
+
+  # Use some magic math from information theory.
+  def info_content
+    total = self.sum
+    return self.sum do |elt| 
+      if elt>0
+        p = elt/total
+        -p*(Math::log(p)/L2) 
+      else
+        0.0
+      end
+    end
+  end
+  
+  def sum        # The Ruby FAQ describes a more general way to do this.
+    total = 0.0
+    if block_given?
+      self.each {|e| total += yield(e)}
+    else
+      self.each {|e| total += e}
+    end
+    return total
+  end
+end
+
+# Empty husk of a class to serve as a superclass for the
+# internal and leaf node types.  A decision tree is a
+# recursive structure, so to refer to a node is also
+# to refer to the entire tree below it.
+
+class BDT
+end
+
+# Internal decision tree node.
+class BDT_internal < BDT
+  def initialize(question, children)
+    @question = question
+    @yes,@no = children
+  end
+
+  # Interactively classify, based on user's responses.
+  def classify
+    print @question,"? "
+    if ($stdin.gets) =~ /^[Yy]/
+      return @yes.classify
+    else
+      return @no.classify
+    end
+  end
+
+  def to_s(logic="",indent="")
+    indent + logic + "if " + @question + "\n" +
+      @yes.to_s("then ", indent+"  ") +
+      @no.to_s("else ", indent+"  ")
+  end
+  alias inspect to_s
+end
+
+# Leaf decision tree node.
+class BDT_leaf < BDT
+  def initialize(c)  @classification = c   end
+  def classify()     @classification       end
+
+  def to_s(logic="",indent="")
+    indent + logic + @classification + "\n"
+  end
+  alias inspect to_s
+end
+
+# A BDT_sample is a classification and an array of attributes.
+class BDT_sample
+  def initialize(c, atr)
+    @classification = c
+    @attributes = atr
+  end
+  attr_reader :classification, :attributes
+end
+
+# A BDT_set holds an array of samples. Since most of the
+# logic of decision trees pertains to sets of samples,
+# instance methods of this class do a lot of work.
+class BDT_set
+  def initialize(source)
+    if source.is_a?(String)  # treat argument as filename
+      @samples = IO.readlines(source).map do |line|
+        tokens = line.split(",").map{|t| t.strip}
+        classification = tokens.delete_at(0)
+        BDT_sample.new(classification, tokens)
+      end
+      # Get rid of lines that are empty or
+      # contain comments (indictaed by #).
+      @samples.delete_if{|s| s.classification =~ /(^$)|(^#)/}
+    else                     # treat argument as array of BDT_samples
+      @samples = source
+    end
+  end
+  attr_reader :samples
+  
+  def make_tree
+    # Decide which attribute seems to give the best
+    # possible split.
+    best = attributes.min do |a1,a2| 
+      expected_info_content(split(a1)) <=> 
+        expected_info_content(split(a2))
+    end
+
+    # Go deeper if the split seems profitable, else
+    # return a leaf node with the predominant
+    # classification for the set.
+    if expected_info_content(split(best)) < 
+        expected_info_content([self])
+      BDT_internal.new(best,split(best).
+                collect{ |e| e.make_tree })
+    else
+      BDT_leaf.new((self.classification_totals.
+             max{|x,y| x[1]<=>y[1]}).first)
+    end
+  end
+
+  # Return a list of all attributes that appear in the set.
+  def attributes
+    (@samples.map{|s| s.attributes}).flatten.uniq
+  end
+
+  # Return a hash showing the number of samples for
+  # each classification.
+  def classification_totals
+    h = Hash.new(0)
+    @samples.each {|s| h[s.classification] += 1}
+    h
+  end
+
+  # Return expected information content of an array
+  # of BDT_sets.
+  def expected_info_content(sets)
+    num_samples = sets.sum {|s| s.samples.size}
+    sets.sum do |s|
+      v = s.classification_totals.values
+      v.info_content * v.sum / num_samples
+    end
+  end
+  
+  # Return a pair of BDT_sets, reflecting a split of
+  # self according to the given attribute.
+  def split(atr)
+    with = []; without = []
+    @samples.each do |s|
+      if s.attributes.include?(atr)
+        with.push s
+      else
+        without.push s
+      end
+    end
+    [BDT_set.new(with),BDT_set.new(without)]
+  end
+
+  def inspect  # this was useful when debugging
+    @samples.map {|s| s.classification + 
+        ":  "+s.attributes.sort.join(",")}.
+        join("\n")
+  end
+  
+end
