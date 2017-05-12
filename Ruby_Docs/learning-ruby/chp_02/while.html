@@ -1,0 +1,140 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_02/conditionals.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Conditionals
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_02/tips.html">
+            Writing good programs
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>While loops</h1>
+
+<p>Now that you are familiar with conditions, it's time to look at another
+kind of loop: The <b>while</b> loop.</p>
+
+<p>This type of loop is much more powerful than the one you've seen already.
+But it requires understanding conditionals.  It's basic for is:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+while <em>cond</em>
+   ...
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Where <em>cond</em> is a condition like the ones you saw in the last
+chapter.</p>
+
+<h2>Counting</h2>
+
+<p>Here is a simple example:</p>
+
+<center><img src="while/01.gif" /></center>
+
+<p>Let's go through this program:</p>
+<ol> 
+<li>Set <b>count</b> to 0</li>
+<li>Since <b>count</b> &lt; 10 we go into the loop.</li>
+<li>Inside the loop we print a message and add 1 to <b>count</b>.
+    Now <b>count</b> is 1.</li>
+<li>Since <b>count</b>&lt; 10 again we go for another loop.</li>
+<li>...</li>
+</ol>
+
+<p>This continues on until <b>count</b> is 10.  So the output of this loop
+is:</p>
+
+<center><img src="while/02.gif" /></center>
+
+<p>In other words, a <b>while</b> loop will continue repeating the
+loop while the condition is true.  Hence the name <b>while</b>.</p>
+
+<h2><a name="powers">Powers of 2</a></h2>
+
+<p>There are some things are easy to do with a <b>while</b> loop, but very 
+difficult with a '<b>n.times</b>'.</p>
+
+<p>Suppose that we want to know the highest power of 2 which is less than
+1000.  This is easy with a while loop:</p>
+
+<center><img src="while/03.gif" /></center>
+
+<center><img src="while/04.gif" /></center>
+
+<p>Think about how difficult this would be using '<b>n.times</b>'.</p>
+
+<h2><a name="ex">Exercises</a></h2>
+
+<ol>
+   <li><p>Rewrite this last program so that the computer asks for
+       the maximum number and the program computes the corresponding
+       power of two.</p>
+       <center><img src="while/05.gif" /></center>
+   </li>
+   <li><p>Run the program above, and type <b>1e10</b> as input.
+       What happens?</p>
+       <p>If you used the <b>String#to_i</b> method, chances are that
+       <b>"1e10"</b> was converted to <b>1</b>.  Let's go to <b>irb</b>
+       to try this out.</p>
+       
+       <center><img src="while/06.gif" /></center>
+       
+       <p>You see, <b>1e10</b> is a <b>Float</b>.  Thus, you have to
+       use <b>String#to_f</b> instead.</p>
+   </li>
+</ol>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_02/conditionals.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Conditionals
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_02/tips.html">
+            Writing good programs
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

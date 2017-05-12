@@ -1,0 +1,7 @@
+---
+server: [thin, webrick] # use only thin or webrick for #run!
+public_dir: /home/kb9agt/gists/public        
+port:   8080            # run on port 8080
+foo: baz
+database:
+  adapter: sqlite

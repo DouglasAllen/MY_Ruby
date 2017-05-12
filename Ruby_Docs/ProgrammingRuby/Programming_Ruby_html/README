@@ -1,0 +1,31 @@
+In February 2001, Addison Wesley Longman, the publishers and copyright 
+holders of the book, graciously agreed to release the book under an
+Open Publication license.
+
+I have converted the book from it's original LaTeX into XML, and then 
+into HTML. The XML and HTML files live in their own subdirectories 
+below this one. The HTML files are self-contained: you can point a
+browser at a local copy and read away.
+
+Our hope is that people will start using the XML files to
+'Ruby-enable' various environments, such as IDEs and editors, as well
+as repacking the information in different ways. It would be nice if
+you could drop us an e-mail telling us how you're using the material
+so we can start compiling a list.
+
+This release contains some known formatting problems, but I wanted
+to get in out in front of folks for comment.
+
+1. Diagrams have not been converted.
+2. Some code fragments appear in body font, not code font.
+3. Some lists have strange formatting under Mozilla 0.8. This formatting
+   is OK under Netscape and IE, so I'm open to suggestions on what
+   is happening
+
+Regards
+
+
+Dave Thomas
+The Pragmatic Programmers
+
+rubybook@pragmaticprogramer.com

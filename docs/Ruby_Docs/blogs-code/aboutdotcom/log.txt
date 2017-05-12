@@ -1,3 +1,0 @@
-2013-02-07 13:44:18 -0600: Being marshaled
-2013-02-07 13:47:04 -0600: Unmarshaled
-2013-02-07 13:47:04 -0600: Being marshaled

@@ -1,0 +1,154 @@
+
+# program begins
+@jpd_2000 = 2_451_545.0
+@latitude = 41.943
+@longitude = -88.75
+@tz = -6
+
+def local_angle
+  @longitude / 360.0
+end
+
+time = Time.now.utc
+@year = Time.now.year
+@month = Time.now.month
+@day = Time.now.day
+
+include Math
+@d2r = PI / 180.0
+@r2d = 180.0 / PI
+
+require 'date'
+def jpd_date
+  Date.new(@year, @month, @day).jd
+end
+
+# Calculate current Julian Period Cycle
+
+# http://maia.usno.navy.mil/ser7/deltat.data
+jps_delta_time = 67.0258 / 86_400.0
+$ca = 0.00014 # jps_delta_time or 0.0009 adds too much time
+
+def jpd_cycle
+  jpd_date - @jpd_2000
+end
+
+# Mean Solar Transit for your Local Hour Angle
+def jpd_noon
+  @jpd_2000 + jpd_cycle - local_angle
+end
+
+# Solar Mean Anomaly
+
+def mean_anomaly
+  (357.5291 + 0.98560028 * (jpd_noon - @jpd_2000)) % 360
+end
+
+include Math
+# Equation of Center
+def equation_of_center
+  ma_r = mean_anomaly * @d2r
+  1.9148 * sin(ma_r) + 0.0200 * sin(2.0 * ma_r) + 0.0003 * sin(3.0 * ma_r)
+end
+
+# ............. lambda_periapsis..............
+# An approximation of angle when earth is closest to sun in a new
+# year (about the 2nd or 3rd day). There are ways to avoid using it
+# but since wikipedia does then I will.
+# ............................................
+
+@lambda_periapsis = 180.0 + 102.9372
+
+def ecliptic_longitude
+  (mean_anomaly + equation_of_center + @lambda_periapsis) % 360
+end
+
+def j_eot
+  0.0053 * sin(mean_anomaly * @d2r) -
+    0.0069 * sin(2.0 * ecliptic_longitude * @d2r)
+end
+
+def j_transit
+  jpd_noon + j_eot
+end
+
+def sine_declination
+  sin(ecliptic_longitude * @d2r) *
+    sin(23.436 * @d2r)
+end
+
+def declination
+  asin(sine_declination) * @r2d
+end
+
+# Horizon Angle
+# Horizon Angle is the angle between Sunrise to Transit or Transit to Sunset.
+
+def cosine_omega
+  lat_r = @latitude * @d2r
+  dec_r = declination * @d2r
+  sin(-0.8333 * @d2r) - sin(lat_r) * sin(dec_r) / cos(lat_r) * cos(dec_r)
+end
+
+def hour_angle
+  acos(cosine_omega) * @r2d
+end
+
+def j_set
+  j_transit + hour_angle / 360.0
+end
+
+def j_rise
+  j_transit - hour_angle / 360.0
+end
+
+def jpd_fraction(jpd_time)
+  fraction = jpd_time - 0.5 - Integer(jpd_time - 0.5)
+  (fraction * 100_000_000.0).round / 100_000_000.0
+end
+
+def _hours(jpd_time)
+  Integer(jpd_fraction(jpd_time) * 24.0)
+end
+
+def _minutes(jpd_time)
+  hours = _hours(jpd_time)
+  Integer((jpd_fraction(jpd_time) - hours / 24.0) * 1440.0)
+end
+
+def _seconds(jpd_time)
+  hours = _hours(jpd_time)
+  minutes = _minutes(jpd_time)
+  Integer((jpd_fraction(jpd_time) - hours / 24.0 - minutes / 1440.0) * 86_400.0)
+end
+
+def julian_period_day_fraction_to_time(jpd_time)
+  hours = _hours(jpd_time)
+  minutes = _minutes(jpd_time)
+  seconds = _seconds(jpd_time)
+  Time.new(@year, 
+           @month,
+           @day,
+           hours,
+           minutes,
+           seconds) +
+    @tz * 3600
+end
+
+# Output results
+
+text = <<-HEREDOC
+The current time UTC = #{time}
+Current Julian Cycle = #{jpd_cycle}
+Julian Mean Solar transit = #{jpd_noon}
+Approximate Julian EOT = #{j_eot}
+Julian True Solar transit = #{j_transit}
+Julian Sunrise #{j_rise}
+Julian Sunset #{j_set}
+Local Mean Noon #{julian_period_day_fraction_to_time(jpd_noon)}
+Local Noon #{julian_period_day_fraction_to_time(j_transit)}
+Local Sunrise #{julian_period_day_fraction_to_time(j_rise)}
+Local Sunset #{julian_period_day_fraction_to_time(j_set)}
+HEREDOC
+
+puts text

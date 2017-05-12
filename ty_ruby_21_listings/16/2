@@ -1,0 +1,14 @@
+def permutations( word )
+  len = word.length
+  if len > 1
+    result = []
+    len.times do |idx|
+      result +=
+        (permutations(word[0,idx]+word[idx+1 .. -1])).
+        map{ |w| word[idx,1] + w }
+    end
+    result.uniq
+  else 
+    [word]
+  end
+end

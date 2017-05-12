@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>hash - RDoc Documentation</title>
+
+<style media="screen" type="text/css">
+
+/* @group Source Code */
+
+pre {
+  margin: 0.5em 0;
+  border: 1px dashed #999;
+  padding: 0.5em;
+  background: #262626;
+  color: #80ffff;
+  overflow: auto;
+}
+h1,h2 {
+  margin: 0.5em 0;
+  border: 1px dashed #999;
+  padding: 0.5em;
+  background: #262626;
+  color: #80ff00;
+  overflow: auto;
+}
+h3 {
+  margin: 0.5em 0;
+  border: 1px dashed #999;
+  padding: 0.5em;
+  background: #262626;
+  color: #80ffff;
+  overflow: auto;
+}
+
+</style>
+
+<body id="top" role="document" class="file">
+<a href="http://ruby-doc.org/core-2.1.1/Hash.html">http://ruby-doc.org/core-2.1.1/Hash.html</a>
+<pre>
+<h1>Class Hash < Object</h1>
+<h3>  A Hash is a dictionary-like collection of unique keys and their values. Also called 
+associative arrays, they are similar to Arrays, but where an Array uses integers as its 
+index, a Hash allows you to use any object type.
+
+  Hashes enumerate their values in the order that the corresponding keys were inserted.
+
+  A Hash can be easily created by using its implicit form:
+
+grades = { "Jane Doe" => 10, "Jim Doe" => 6 }
+
+  Hashes allow an alternate syntax form when your keys are always symbols. Instead of
+
+options = { :font_size => 10, :font_family => "Arial" }
+  
+  You could write it as:
+
+options = { font_size: 10, font_family: "Arial" }
+
+  Each named key is a symbol you can access in hash:
+
+options[:font_size]  # => 10
+
+  A Hash can also be created through its ::new method:
+
+grades = Hash.new
+grades["Dorothy Doe"] = 9
+
+  Hashes have a default value that is returned when accessing keys that do not exist in the
+hash. If no default is set nil is used. You can set the default value by sending it as an 
+argument to ::new:
+
+grades = Hash.new(0)
+
+  Or by using the default= method:
+
+grades = {"Timmy Doe" => 8}
+grades.default = 0
+
+  Accessing a value in a Hash requires using its key:
+
+puts grades["Jane Doe"] # => 0</h3>
+<hr>
+<h2>Common Uses</h2>
+<h3>  Hashes are an easy way to represent data structures, such as
+
+books         = {}
+books[:matz]  = "The Ruby Language"
+books[:black] = "The Well-Grounded Rubyist"
+
+  Hashes are also commonly used as a way to have named parameters in functions. Note that no 
+brackets are used below. If a hash is the last argument on a method call, no braces are 
+needed, thus creating a really clean interface:
+
+Person.create(name: "John Doe", age: 27)
+
+def self.create(params)
+  @name = params[:name]
+  @age  = params[:age]
+end</h3>
+<hr>
+<h2>Hash Keys</h2>
+<h3>  Two objects refer to the same hash key when their hash value is identical and the two 
+objects are eql? to each other.
+
+  A user-defined class may be used as a hash key if the hash and eql? methods are overridden
+to provide meaningful behavior. By default, separate instances refer to separate hash keys.
+
+  A typical implementation of hash is based on the object’s data while eql? is usually 
+aliased to the overridden == method:
+
+class Book
+  attr_reader :author, :title
+
+  def initialize(author, title)
+    @author = author
+    @title = title
+  end
+
+  def ==(other)
+    self.class === other and
+      other.author == @author and
+      other.title == @title
+  end
+
+  alias eql? ==
+
+  def hash
+    @author.hash ^ @title.hash # XOR
+  end
+end
+
+book1 = Book.new 'matz', 'Ruby in a Nutshell'
+book2 = Book.new 'matz', 'Ruby in a Nutshell'
+
+reviews = {}
+
+reviews[book1] = 'Great reference!'
+reviews[book2] = 'Nice and compact!'
+
+reviews.length #=> 1
+
+  See also Object#hash and Object#eql?
+</h3>
+<hr>
+<h2>Public Class Methods</h2>
+<h3>Hash[ key, value, ... ] → new_hash
+Hash[ [ [key, value], ... ] ] → new_hash
+Hash[ object ] → new_hash</h3>
+<h3>  Creates a new hash populated with the given objects.
+
+  Similar to the literal { key => value, ... }. In the first form, keys and values occur in 
+pairs, so there must be an even number of arguments.
+
+  The second and third form take a single argument which is either an array of key-value 
+pairs or an object convertible to a hash.
+
+puts Hash["a", 100, "b", 200].inspect              #=> {"a"=>100, "b"=>200}
+puts Hash[ [ ["a", 100], ["b", 200] ] ].inspect    #=> {"a"=>100, "b"=>200}
+puts Hash["a" => 100, "b" => 200].inspect          #=> {"a"=>100, "b"=>200}</h3>
+<hr>
+<h3>new → new_hash
+new(obj) → new_hash
+new {|hash, key| block } → new_hash</h3>
+<h3>  Returns a new, empty hash. If this hash is subsequently accessed by a key that doesn’t 
+correspond to a hash entry, the value returned depends on the style of new used to create 
+the hash. In the first form, the access returns nil. If obj is specified, this single object
+will be used for all default values. If a block is specified, it will be called with the hash
+object and the key, and should return the default value. It is the block’s responsibility to
+store the value in the hash if required.
+
+h                                                  = Hash.new("Go Fish")
+h["a"]                                             = 100
+h["b"]                                             = 200
+puts h["a"].inspect                                #=> 100
+puts h["c"].inspect                                #=> "Go Fish"
+
+# The following alters the single default object
+
+puts h["c"].upcase!.inspect                        #=> "GO FISH"
+puts h["d"].inspect                                #=> "GO FISH"
+puts h.keys.inspect                                #=> ["a", "b"]
+
+# While this creates a new default object each time
+
+h                                 = Hash.new { |hash, key| hash[key] = "Go Fish: #{key}" }
+puts h["c"].inspect               #=> "Go Fish: c"
+puts h["c"].upcase!.inspect       #=> "GO FISH: C"
+puts h["d"].inspect               #=> "Go Fish: d"
+puts h.keys.inspect               #=> ["c", "d"]</h3>
+<hr>
+<h3>try_convert(obj) → hash or nil</h3>
+<h3>  Try to convert obj into a hash, using #to_hash method. Returns converted hash or nil if 
+obj cannot be converted for any reason.
+
+puts Hash.try_convert({1=>2}).inspect              # => {1=>2}
+puts Hash.try_convert("1=>2").inspect              # => nil</h3>
+<hr>
+<h2>Public Instance Methods</h2>
+<h3>hsh == other_hash → true or false</h3>
+<h3>  Equality—Two hashes are equal if they each contain the same number of keys and if each 
+key-value pair is equal to (according to Object#==) the corresponding elements in the other 
+hash.
+
+h1                                                 = { "a" => 1, "c" => 2 }
+h2                                                 = { 7 => 35, "c" => 2, "a" => 1 }
+h3                                                 = { "a" => 1, "c" => 2, 7 => 35 }
+h4                                                 = { "a" => 1, "d" => 2, "f" => 35 }
+puts (h1 == h2).inspect                            #=> false
+puts (h2 == h3).inspect                            #=> true
+puts (h3 == h4).inspect                            #=> false</h3>
+<hr>
+<h3>hsh[key] → value</h3>
+<h3>  Element Reference—Retrieves the value object corresponding to the key object. If not found,
+returns the default value (see Hash::new for details).
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h["a"]   #=> 100
+puts h["c"]   #=> nil</h3>
+<hr>
+<h2>Element Assignment</h2>
+<h3>hsh[key] = value → value</h3>
+<h3>  Associates the value given by value with the key given by key.
+
+h                                                  = { "a" => 100, "b" => 200 }
+h["a"]                                             = 9
+h["c"]                                             = 4
+puts h.inspect                                     #=> {"a"=>9, "b"=>200, "c"=>4}
+puts h.store("d", 42).inspect                      #=> {"a"=>9, "b"=>200, "c"=>4, "d"=>42}
+
+  key should not have its value changed while it is in use as a key (an unfrozen String 
+passed as a key will be duplicated and frozen).
+
+a                                                  = "a"
+b                                                  = "b".freeze
+h                                                  = { a => 100, b => 200 }
+puts (h.key(100).equal? a).inspect                 #=> false
+puts (h.key(200).equal? b).inspect                 #=> true</h3>
+<hr>
+<h3>assoc(obj) → an_array or nil</h3>
+<h3>   Searches through the hash comparing obj with the key using ==. Returns the key-value 
+pair (two elements array) or nil if no match is found. See Array#assoc.
+
+h                                                  = {"colors"  => ["red", "blue", "green"],
+                                                      "letters" => ["a", "b", "c" ]}
+puts h.assoc("letters").inspect                    #=> ["letters", ["a", "b", "c"]]
+puts h.assoc("foo").inspect                        #=> nil</h3>
+<hr>
+<h3>clear → hsh</h3>
+<h3>  Removes all key-value pairs from hsh.
+
+h                                                  = { "a" => 100, "b" => 200 }   
+puts h.inspect                                     #=> {"a"=>100, "b"=>200}
+puts h.clear.inspect                               #=> {}</h3>
+<hr>
+<h3>compare_by_identity → hsh</h3>
+<h3>  Makes hsh compare its keys by their identity, i.e. it will consider exact same objects as 
+same keys.
+
+h1                                                 = { "a" => 100, "b" => 200, :c => "c" }
+puts h1["a"].inspect                               #=> 100
+puts h1.compare_by_identity
+puts h1.compare_by_identity?                       #=> true
+puts h1["a"].inspect                               #=> nil  # different objects.
+puts h1[:c].inspect                                #=> "c"  # same symbols are all same.</h3>
+<hr>
+<h3>compare_by_identity? → true or false</h3>
+<h3>  Returns true if hsh will compare its keys by their identity. 
+Also see Hash#compare_by_identity.</h3>
+<hr>
+<h3>default(key=nil) → obj</h3>
+<h3>  Returns the default value, the value that would be returned by hsh if key did not exist in
+hsh. See also Hash::new and Hash#default=.
+
+h                                                  = Hash.new                            
+puts h.inspect                                     #=> {}
+puts h.default.inspect                             #=> nil
+puts h.default(2).inspect                          #=> nil
+
+h                                                  = Hash.new("cat")                     
+puts h.inspect                                     #=> {}
+puts h.default.inspect                             #=> "cat"
+puts h.default(2).inspect                          #=> "cat"
+
+h                                                  = Hash.new {|h,k| h[k] = k.to_i*10}   
+puts h.inspect                                     #=> {}
+puts h.default.inspect                             #=> nil
+puts h.default(2).inspect                          #=> 20</h3>
+<hr>
+<h2>Supplemental notes</h2>
+<h3>  To clarify: When called with no argument, it returns the default value. When called with a
+hash key it returns the corresponding value for that key if the hash contains that key. Only
+if the key does not exist does it return the default value.</h3>
+<hr>
+<h3>default = obj → obj</h3>
+<h3>  Sets the default value, the value returned for a key that does not exist in the hash. It is 
+not possible to set the default to a Proc that will be executed on each key lookup.
+
+h                                                  = { "a" => 100, "b" => 200 }
+h.default                                          = "Go fish"
+puts h["a"].inspect                                #=> 100
+puts h["z"].inspect                                #=> "Go fish"
+
+# This doesn't do what you might hope...
+
+h.default = proc do |hash, key|
+  hash[key] = key + key
+end
+puts h[2].inspect                                  #=> #<Proc:0x401b3948@-:6>
+puts h["cat"].inspect                              #=> #<Proc:0x401b3948@-:6></h3>
+<hr>
+<h3>default_proc → anObject</h3>
+<h3>  If Hash::new was invoked with a block, return that block, otherwise return nil.
+
+h                                                  = Hash.new {|h,k| h[k] = k*k }   
+puts h.inspect                                     #=> {}
+p                                                  = h.default_proc                 
+puts pdefault_proc                                 #=> #<Proc:0x401b3d08@-:1>
+a                                                  = []                             
+puts a.inspect                                     #=> []
+p.call(a, 2)
+puts a.inspect                                     #=> [nil, nil, 4]</h3>
+<hr>
+<h3>default_proc = proc_obj or nil</h3>
+<h3>  Sets the default proc to be executed on each failed key lookup.
+
+h.default_proc = proc do |hash, key|
+  hash[key] = key + key
+end
+puts h[2].inspect                                  #=> 4
+puts h["cat"].inspect                              #=> "catcat"</h3>
+<hr>
+<h3>delete(key) → value
+delete(key) {| key | block } → value</h3>
+<h3>  Deletes the key-value pair and returns the value from hsh whose key is equal to key. 
+If the key is not found, returns the default value. If the optional code block is given and 
+the key is not found, pass in the key and return the result of block.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.delete("a").inspect                              #=> 100
+puts h.delete("z").inspect                              #=> nil
+puts h.delete("z") { |el| "#{el} not found" }.inspect   #=> "z not found"</h3>
+<hr>
+<h3>delete_if {| key, value | block } → hsh
+delete_if → an_enumerator</h3>
+<h3>  Deletes every key-value pair from hsh for which block evaluates to true.
+
+  If no block is given, an enumerator is returned instead.
+
+h                                                  = { "a" => 100, "b" => 200, "c" => 300 }
+puts h.delete_if {|key, value| key >= "b" }.inspect #=> {"a"=>100}</h3>
+<hr>
+<h3>each {| key, value | block } → hsh
+each_pair {| key, value | block } → hsh
+each → an_enumerator
+each_pair → an_enumerator</h3>
+<h3>  Calls block once for each key in hsh, passing the key-value pair as parameters.
+
+  If no block is given, an enumerator is returned instead.
+
+h = { "a" => 100, "b" => 200 }
+h.each {|key, value| puts "#{key} is #{value}" }
+produces:
+
+a is 100
+b is 200</h3>
+<hr>
+<h3>each_key {| key | block } → hsh
+each_key → an_enumerator</h3>
+<h3>  Calls block once for each key in hsh, passing the key as a parameter.
+
+  If no block is given, an enumerator is returned instead.
+
+h = { "a" => 100, "b" => 200 }
+h.each_key {|key| puts key }
+produces:
+
+a
+b</h3>
+<hr>
+<h3>each_pair {| key, value | block } → hsh
+each_pair → an_enumerator</h3>
+<h3>  Calls block once for each key in hsh, passing the key-value pair as parameters.
+
+  If no block is given, an enumerator is returned instead.
+
+h = { "a" => 100, "b" => 200 }
+h.each {|key, value| puts "#{key} is #{value}" }
+produces:
+
+a is 100
+b is 200</h3>
+<hr>
+<h3>each_value {| value | block } → hsh
+each_value → an_enumerator</h3>
+<h3>  Calls block once for each key in hsh, passing the value as a parameter.
+
+  If no block is given, an enumerator is returned instead.
+
+h = { "a" => 100, "b" => 200 }
+h.each_value {|value| puts value }
+produces:
+
+100
+200</h3>
+<hr>
+<h3>empty? → true or false</h3>
+<h3>  Returns true if hsh contains no key-value pairs.
+
+puts {}.empty?   #=> true</h3>
+<hr>
+<h3>eql?(other) → true or false</h3>
+<h3>  Returns true if hash and other are both hashes with the same content.</h3>
+<hr>
+<h3>fetch(key [, default] ) → obj
+fetch(key) {| key | block } → obj</h3>
+<h3>  Returns a value from the hash for the given key. If the key can’t be found, there are 
+several options: With no other arguments, it will raise an KeyError exception; if default is
+given, then that will be returned; if the optional code block is specified, then that will 
+be run and its result returned.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.fetch("a").inspect                          #=> 100
+puts h.fetch("z", "go fish").inspect               #=> "go fish"
+puts h.fetch("z") { |el| "go fish, #{el}"}.inspect #=> "go fish, z"
+
+  The following example shows that an exception is raised if the key is not found and a 
+default value is not supplied.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.fetch("z").inspect
+produces:
+
+prog.rb:2:in `fetch': key not found (KeyError)
+ from prog.rb:2</h3>
+<hr>
+<h3>flatten → an_array
+flatten(level) → an_array</h3> 
+<h3>  Returns a new array that is a one-dimensional flattening of this hash. That is, for every 
+key or value that is an array, extract its elements into the new array. 
+Unlike Array#flatten, this method does not flatten recursively by default. The optional 
+level argument determines the level of recursion to flatten.
+
+a                                                  =  {1=> "one", 2 => [2,"two"], 3 => "three"}
+puts a.flatten.inspect                             # => [1, "one", 2, [2, "two"], 3, "three"]
+puts a.flatten(2).inspect                          # => [1, "one", 2, 2, "two", 3, "three"]</h3>
+<hr>
+<h3>has_key?(key) → true or false</h3>
+<h3>  Returns true if the given key is present in hsh.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.has_key?("a").inspect                       #=> true
+puts h.has_key?("z").inspect                       #=> false</h3>
+<hr>
+<h3>has_value?(value) → true or false</h3>
+<h3>  Returns true if the given value is present for some key in hsh.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.has_value?(100).inspect                     #=> true
+puts h.has_value?(999).inspect                     #=> false</h3>
+<hr>
+<h3>hash → fixnum</h3>
+<h3>  Compute a hash-code for this hash. Two hashes with the same content will have the same 
+hash code (and will compare using eql?).</h3>
+<hr>
+<h3>include?(key) → true or false</h3>
+<h3>  Returns true if the given key is present in hsh.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.has_key?("a").inspect                       #=> true
+puts h.has_key?("z").inspect                       #=> false</h3>
+<hr>
+<h3>to_s → string
+inspect → string</h3>
+<h3>  Return the contents of this hash as a string.
+
+h                                                  = { "c" => 300, "a" => 100, "d" => 400, "c" => 300  }
+puts h.inspect                                     #=> "{\"c\"=>300, \"a\"=>100, \"d\"=>400}"
+Also aliased as: to_s</h3>
+<hr>
+<h3>invert → new_hash</h3>
+<h3>  Returns a new hash created by using hsh’s values as keys, and the keys as values.
+
+h                        = { "n" => 100, "m" => 100, "y" => 300, "d" => 200, "a" => 0 }
+puts h.invert.inspect   #=> {0=>"a", 100=>"m", 200=>"d", 300=>"y"}</h3>
+<hr>
+<h3>keep_if {| key, value | block } → hsh
+keep_if → an_enumerator</h3>
+<h3>  Deletes every key-value pair from hsh for which block evaluates to false.
+
+  If no block is given, an enumerator is returned instead.</h3>
+<hr>
+<h3>key(value) → key</h3>
+<h3>  Returns the key of an occurrence of a given value. If the value is not found, returns nil.
+
+h                                       = { "a" => 100, "b" => 200, "c" => 300, "d" => 300 }
+puts h.key(200).inspect                 #=> "b"
+puts h.key(300).inspect                 #=> "c"
+puts h.key(999).inspect                 #=> nil</h3>
+<hr>
+<h3>key?(key) → true or false</h3>
+<h3>  Returns true if the given key is present in hsh.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.has_key?("a").inspect                       #=> true
+puts h.has_key?("z").inspect                       #=> false</h3>
+<hr>
+<h3>keys → array</h3>
+<h3>  Returns a new array populated with the keys from this hash. See also Hash#values.
+
+h                                       = { "a" => 100, "b" => 200, "c" => 300, "d" => 400 }
+puts h.keys.inspect                     #=> ["a", "b", "c", "d"]</h3>
+<hr>
+<h3>length → fixnum</h3>
+<h3>  Returns the number of key-value pairs in the hash.
+
+h                                       = { "d" => 100, "a" => 200, "v" => 300, "e" => 400 }
+puts h.length.inspect                   #=> 4
+puts h.delete("a").inspect              #=> 200
+puts h.length.inspect                   #=> 3</h3>
+<hr>
+<h3>member?(key) → true or false</h3>
+<h3>  Returns true if the given key is present in hsh.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.has_key?("a").inspect                       #=> true
+puts h.has_key?("z").inspect                       #=> false</h3>
+<hr>
+<h3>merge(other_hash) → new_hash
+merge(other_hash){|key, oldval, newval| block} → new_hash</h3>
+<h3>  Returns a new hash containing the contents of other_hash and the contents of hsh. If no 
+block is specified, the value for entries with duplicate keys will be that of other_hash. 
+Otherwise the value for each duplicate key is determined by calling the block with the key, 
+its value in hsh and its value in other_hash.
+
+h1                                                 = { "a" => 100, "b" => 200 }
+h2                                                 = { "b" => 254, "c" => 300 }
+puts h1.merge(h2).inspect                          #=> {"a"=>100, "b"=>254, "c"=>300}
+puts h1.merge(h2){|key, oldval, newval| newval - oldval}.inspect
+                                                   #=> {"a"=>100, "b"=>54,  "c"=>300}
+puts h1.inspect                                    #=> {"a"=>100, "b"=>200}</h3>
+<hr>
+<h3>merge!(other_hash) → hsh
+merge!(other_hash){|key, oldval, newval| block} → hsh</h3>
+<h3>  Adds the contents of other_hash to hsh. If no block is specified, entries with duplicate 
+keys are overwritten with the values from other_hash, otherwise the value of each duplicate 
+key is determined by calling the block with the key, its value in hsh and its value in 
+other_hash.
+
+h1                                                 = { "a" => 100, "b" => 200 }
+h2                                                 = { "b" => 254, "c" => 300 }
+puts h1.merge!(h2).inspect                         #=> {"a"=>100, "b"=>254, "c"=>300}
+
+h1                                                 = { "a" => 100, "b" => 200 }
+h2                                                 = { "b" => 254, "c" => 300 }
+puts h1.merge!(h2) { |key, v1, v2| v1 }.inspect    #=> {"a"=>100, "b"=>200, "c"=>300}</h3>
+<hr>
+<h3>rassoc(obj) → an_array or nil</h3>                
+<h3>  Searches through the hash comparing obj with the value using ==. Returns the first 
+key-value pair (two-element array) that matches. See also Array#rassoc.
+
+a                                      = {1=> "one", 2 => "two", 3 => "three", "ii" => "two"}
+puts a.rassoc("two").inspect           #=> [2, "two"]
+puts a.rassoc("four").inspect          #=> nil</h3>
+<hr>
+<h3>rehash → hsh</h3>
+<h3>  Rebuilds the hash based on the current hash values for each key. If values of key objects 
+have changed since they were inserted, this method will reindex hsh. If Hash#rehash is called
+while an iterator is traversing the hash, an RuntimeError will be raised in the iterator.
+
+a                                                  = [ "a", "b" ]
+c                                                  = [ "c", "d" ]
+h                                                  = { a => 100, c => 300 }
+puts h[a].inspect                                  #=> 100
+a[0]                                               = "z"
+puts h[a].inspect                                  #=> nil
+puts h.rehash.inspect                              #=> {["z", "b"]=>100, ["c", "d"]=>300}
+puts h[a].inspect                                  #=> 100</h3>
+<hr>
+<h3>reject {|key, value| block} → a_hash
+reject → an_enumerator</h3>
+<h3>  Returns a new hash consisting of entries for which the block returns false.
+
+  If no block is given, an enumerator is returned instead.
+
+h                                                  = { "a" => 100, "b" => 200, "c" => 300 }
+puts h.reject {|k,v| k < "b"}.inspect              #=> {"b" => 200, "c" => 300}
+puts h.reject {|k,v| v > 100}.inspect              #=> {"a" => 100}</h3>
+<hr>
+<h3>reject! {| key, value | block } → hsh or nil
+reject! → an_enumerator</h3>
+<h3>  Equivalent to Hash#delete_if, but returns nil if no changes were made.</h3>
+<hr>
+<h3>replace(other_hash) → hsh</h3>
+<h3>  Replaces the contents of hsh with the contents of other_hash.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.replace({ "c" => 300, "d" => 400 }).inspect #=> {"c"=>300, "d"=>400}</h3>
+<hr>
+<h3>select {|key, value| block} → a_hash
+select → an_enumerator</h3>
+<h3>  Returns a new hash consisting of entries for which the block returns true.
+
+  If no block is given, an enumerator is returned instead.
+
+h                                                  = { "a" => 100, "b" => 200, "c" => 300 }
+puts h.select {|k,v| k > "a"}.inspect              #=> {"b" => 200, "c" => 300}
+puts h.select {|k,v| v < 200}.inspect              #=> {"a" => 100}</h3>
+<hr>
+<h3>select! {| key, value | block } → hsh or nil
+select! → an_enumerator</h3>
+<h3>  Equivalent to Hash#keep_if, but returns nil if no changes were made.</h3>
+<hr>
+<h3>shift → anArray or obj</h3>
+<h3>  Removes a key-value pair from hsh and returns it as the two-item array [ key, value ], 
+or the hash’s default value if the hash is empty.
+
+h                                                  = { 1 => "a", 2 => "b", 3 => "c" }
+puts h.shift.inspect                               #=> [1, "a"]
+puts h.inspect                                     #=> {2=>"b", 3=>"c"}</h3>
+<hr>
+<h3>size → fixnum</h3>
+<h3>  Returns the number of key-value pairs in the hash.
+
+h                                        = { "d" => 100, "a" => 200, "v" => 300, "e" => 400 }
+puts h.length.inspect                    #=> 4
+puts h.delete("a").inspect               #=> 200
+puts h.length.inspect                    #=> 3</h3>
+<hr>
+<h2>Element Assignment</h2>
+<h3>store(key, value) → value</h3>
+<h3>  Associates the value given by value with the key given by key.
+
+h                                                  = { "a" => 100, "b" => 200 }
+h["a"]                                             = 9
+h["c"]                                             = 4
+puts h.inspect                                     #=> {"a"=>9, "b"=>200, "c"=>4}
+puts h.store("d", 42).inspect                      #=> {"a"=>9, "b"=>200, "c"=>4, "d"=>42}
+
+  key should not have its value changed while it is in use as a key (an unfrozen String 
+passed as a key will be duplicated and frozen).
+
+a                                                  = "a"
+b                                                  = "b".freeze
+h                                                  = { a => 100, b => 200 }
+puts (h.key(100).equal? a).inspect                 #=> false
+puts (h.key(200).equal? b).inspect                 #=> true</h3>
+<hr>
+<h3>to_a → array</h3>
+<h3>  Converts hsh to a nested array of [ key, value ] arrays.
+
+h                                       = { "c" => 300, "a" => 100, "d" => 400, "c" => 300  }
+puts h.to_a.inspect                     #=> [["c", 300], ["a", 100], ["d", 400]]</h3>
+<hr>
+<h3>to_h → hsh or new_hash</h3>
+<h3>  Returns self. If called on a subclass of Hash, converts the receiver to a Hash object.</h3>
+<hr>
+<h3>to_hash => hsh</h3>
+<h3>  Returns self.</h3>
+<hr>
+<h3>to_s()</h3>
+<h3>  Alias for: inspect
+  
+h                                         = { "c" => 300, "a" => 100, "d" => 400, "c" => 300  }
+puts h.to_s                               #=> {"c"=>300, "a"=>100, "d"=>400}</h3>
+<hr>
+<h3>update(other_hash) → hsh
+update(other_hash){|key, oldval, newval| block} → hsh</h3>
+<h3>  Adds the contents of other_hash to hsh. If no block is specified, entries with duplicate 
+keys are overwritten with the values from other_hash, otherwise the value of each duplicate 
+key is determined by calling the block with the key, its value in hsh and its value in 
+other_hash.
+
+h1                                                 = { "a" => 100, "b" => 200 }
+h2                                                 = { "b" => 254, "c" => 300 }
+puts h1.update(h2).inspect                         #=> {"a"=>100, "b"=>254, "c"=>300}
+
+h1                                                 = { "a" => 100, "b" => 200 }
+h2                                                 = { "b" => 254, "c" => 300 }
+puts h1.update(h2) { |key, v1, v2| v1 }.inspect    #=> {"a"=>100, "b"=>200, "c"=>300}</h3>
+<hr>
+<h2>Supplemental notes</h2>
+<h3>  merge! and update are two names for the same method. The docs, however, use merge!</h3>
+<hr>
+<h3>value?(value) → true or false</h3>
+<h3>  
+Synonym for Hash#has_value?.
+  Returns true if the given value is present for some key in hsh.
+
+h                                                  = { "a" => 100, "b" => 200 }
+puts h.value?(100).inspect                         #=> true
+puts h.value?(999).inspect                         #=> false</h3>
+<hr>
+<h3>values → array</h3>
+<h3>  Returns a new array populated with the values from hsh. See also Hash#keys.
+
+h                                                  = { "a" => 100, "b" => 200, "c" => 300 }
+puts h.values.inspect                              #=> [100, 200, 300]</h3>
+<hr>
+<h3>values_at(key, ...) → array</h3>
+<h3>  Return an array containing the values associated with the given keys. 
+Also see Hash.select.
+
+h                               = { "cat" => "feline", "dog" => "canine", "cow" => "bovine" }
+puts h.values_at("cow", "cat").inspect  #=> ["bovine", "feline"]</h3>
+<hr>
+<h2>Additional notes</h2>
+<h3>  Some of the methods people use with hashes come from the Enumerable module.
+
+  If you do not find what you are looking for in the Hash docs, check the Enumerable docs.</h3>
+</pre>
+</body>
+</html>

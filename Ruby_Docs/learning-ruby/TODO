@@ -1,0 +1,11 @@
+TODO:
+=====
+
+- Variables must begin with a lowercase.
+- "Writing good programs".
+
+Ideas:
+======
+
+1) Use String#center to write a programs that takes a poem from
+the user, and a line width, and outputs the file

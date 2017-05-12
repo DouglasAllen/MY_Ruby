@@ -1,0 +1,303 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/array_methods.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        What can arrays do?
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/hashes.html">
+            Hashes
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Iterators</h1>
+
+<p>Now we get to one of the coolest features of Ruby: <strong>iterators
+</strong>.</p>
+
+<p>An <em>iterator</em> is a special kind of method.  It is <em> a method that 
+lets you access items one at a time</em>.</p>
+
+<p>Arrays are not the only objects that have iterators, but the are one of the
+most important.  Iterators are best seen through an example.  Here we
+use <b>Array#each</b>:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends = ["Melissa", "Jeff", "Ashley", "Rob"]  
+friends.each do |friend|
+     puts "I have a friend called " + friend 
+end 
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This will produce:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+I have a friend called Melissa  
+I have a friend called Jeff
+I have a friend called Ashley
+I have a friend called Rob
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>The keen student might notice that this looks very similar to the 
+<a href="../chp_02/loops.html">first loop I showed you</a>.  The one with the 
+form <b>n.times do ...</b>.  This is, in fact, an iterator.  And it lets you
+iterate over the integers from <b>0</b> to <b>n-1</b>:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+4.times do |num|
+	puts num
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Which will produce:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+0
+1
+2
+3
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>The fact, that this starts counting at 0 might seem odd.  But it actually
+matches arrays (which start counting at 0).  Thus, the code:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends = ["Melissa", "Jeff", "Ashley", "Rob"]  
+friends.each do |friend|
+     puts "I have a friend called " + friend 
+end 
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Can also be written as:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# 'i' is a standard notation for 'index'.
+4.times do |i|
+	puts "I have a friend called " + friends[i]  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now, here is something cool: Remember the <b>Array#length</b> method?  
+How about?:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends.length.times do |i|  # 'i' for 'index'.
+	puts "I have a friend called " + friends[i]  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now suppose that I don't want to print <em>all</em> my friends.  I just
+want to print every <em>other</em> friend.  We can just print out the friends
+that correspond to <strong>even numbered indices</strong>.  We can do this
+with the remainder (<b>Integer#%</b>) method.</p>
+
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends.length.times do |i|
+	# Print only even indices (i.e. remainder with 2 is 0).
+	if  i % 2 == 0
+		puts "I have a friend called " + friends[i]
+	end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This produces:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+I have a friend called Melissa  
+I have a friend called Ashley
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now, say I want to print all my friends in alphabetical order:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends.sort.each do |friend|
+	puts "I have a friend called " + friend  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Which produces:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+I have a friend called Ashley
+I have a friend called Jeff
+I have a friend called Melissa  
+I have a friend called Rob
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Exercises</h2>
+
+<ol>
+  <li><p>
+	Print all the contents of <b>friends</b> in reverse alphabetical order.</p>
+  </li>
+  <li><p>
+	Print the lyrics to "99 bottles of beer on the wall" using an iterator.</p>
+  </li>
+  <li><p>Say I have the array:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+names = [ "daniel", "eduardo", "alejandro", "enrique" ]  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+      <p>Use <b>String#capitalize</b> to print these names capitalized.</p>
+  </li>
+</ol>    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/array_methods.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        What can arrays do?
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/hashes.html">
+            Hashes
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

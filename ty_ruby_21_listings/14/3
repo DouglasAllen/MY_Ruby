@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+class Secretive
+  def initialize
+    @r = rand
+  end
+
+  def obey(master)
+    master.what_to_do(@r)
+  end
+end
+
+class Inquisitive
+  def getSecret(other)
+    other.obey(self)
+  end
+
+  def what_to_do(data)
+    puts "My secret number is #{data}"
+  end
+end
+    
+sec=Secretive.new
+inq=Inquisitive.new
+inq.getSecret(sec)

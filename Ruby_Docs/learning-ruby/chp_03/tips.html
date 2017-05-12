@@ -1,0 +1,208 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/sorting.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Sorting the addressbook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/about.html">
+            About this chapter
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Good programming techniques</h1>
+
+<dl>
+   <dt>Array or hash?</dt>
+   <dd>
+   <p>When should I use an array?  When should I use a hash?</p>
+   <p>The addressbook structure is a good example of when you
+   should use each.</p>
+   <ul>
+   <li><p>If you have <em>ordered</em> data, you generally want
+       an array.</p></li>
+   <li><p>If you a collection of <em>disparate</em> data, with
+       no definitive correlation (e.g. name, address and phone),
+       you most likely want a hash.</p></li>
+   <li><p>If all the elements of your data fall under the same
+       category (e.g. a group of names), an array is usually
+       a good choice.</p></li>
+   </ul>
+   <p>In the addressbook example, the address and person structures
+   contained disparate data.  So we represented them as hashes.</p>
+
+   <p>The addressbook <em>itself</em> contained data in the same 
+   category (persons) and we also wanted to be able to sort it.   
+   So an array was the best choice.</p>
+   </dd>
+
+   <dt>Variable names</dt>
+   <dd>
+   <p>As you write more complex data structures, it becomes more 
+   important that you pick good variable names.</p>
+
+   <dl>
+      <dt>Arrays</dt>
+      <dd>
+      <p>An array should represent a collection of "equal" things.  Like 
+      a group of cars, a group of names, etc.  You can reflect this by
+      using a <em>plural</em> for your array name.  For example:</p>
+      <ul>
+        <li><p>If each array element is a car, the array should be called
+        <b>cars</b>.</p></li>
+        <li><p>If each array element is a name, the array should be called
+        <b>names</b>.</p></li>
+      </ul>
+      <p>This way, the variable name reminds you that that this is an
+      array, and at the same time it reads like English.</p>
+      </dd>
+
+      <dt>Hashes</dt>
+      <dd>
+      <p>When dealing with hashes, it is important that you pick good
+      names for the hash <em>keys</em>.  A good name is one that is clear, 
+      descriptive and easy to remember: </p>
+
+        Good key name: "<b>first name</b>"<br />
+        Bad key name: "<b>1stname</b>"    <br />
+
+      <p>Since keys are allowed to have spaces, there is no excuse for 
+      having "<b>1stname</b>" for a key.</p>
+      </dd>
+   </dl>
+   </dd>
+
+   <dt>Comments</dt>
+   <dd>
+   <p>As you write more complex programs, it becomes more important 
+   that you include clear comments that explain what you are trying 
+   to do.</p>
+   </dd>
+
+   <dt>Nesting structures</dt>
+   <dd>
+   <p>In general, it is best to not nest structures too deeply.  
+   If you use proper indentation and good names, it might be alright.</p>
+
+   <p>Take a look at these examples:</p>
+
+   <h3>Good:</h3>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# Joe's address
+joe_addr = {
+    "street" => "43 Main St. W",  
+    "city"   => "Washington",
+    "state"  => "DC",
+    "zip"    => "29847"
+}
+
+# Joe
+joe = {
+    "first name" => "Joe",
+    "last name"  => "Smith",
+    "address"    => joe_addr
+}
+                       </pre>    
+
+                       </td>
+                       </tr>
+                       </table>
+
+        <h3>Not as good:</h3>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# Joe
+joe = {
+    "first name" => "Joe",
+    "last name"  => "Smith",
+    "address"    => {
+        "street" => "43 Main St. W",  
+        "city"   => "Washington",
+        "state"  => "DC",
+        "zip"    => "29847"
+         }
+}
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+        <h3>Bad:</h3>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+joe = {
+"first name" => "Joe",
+"last name" => "Smith",
+"address" => {
+"street" => "43 Main St. W",  
+"city" => "Washington",
+"state" => "DC", "zip" => "29847"  
+}}
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+    </dd>
+</dl>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/sorting.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Sorting the addressbook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/about.html">
+            About this chapter
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

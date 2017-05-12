@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+require 'gtk'; include Gtk
+
+# To create a MessageBox, supply message text and an array
+# of button specifications.
+#
+#  MessageBox.new( message,
+#     [ [buttontext, proc, default],
+#       [buttontext, proc, default], ... ] )
+#
+
+# "proc" is a proc object that will be called if the
+# button is clicked. "default" is a flag which, when 
+# set to true, allows the user to choose the button by
+# pressing "Enter" on the keyboard. Both are optional.
+
+class MessageBox < Dialog
+  def initialize(message,btns)
+    super()
+    vbox.pack_start(Label.new(message),true,true,10)
+    btns.each do |text,action,dflt|
+      action_area.add(b=Button.new(text))
+      b.signal_connect('clicked') do 
+        action.call unless action.nil?
+        destroy
+      end
+      if dflt
+        b.set_flags(Widget::CAN_DEFAULT)
+        b.grab_default
+      end
+    end
+    set_modal true
+    show_all
+  end
+end
+
+if $0 == __FILE__
+  q = MessageBox.new("Are we having fun?",
+       [ ["Yes", proc {puts "yes"}, true],
+         ["No", proc {puts "no"}],
+         ["Cancel"] ])
+  q.set_title 'message box test'
+  q.signal_connect('destroy') {main_quit}
+  main
+end

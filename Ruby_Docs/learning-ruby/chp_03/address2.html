@@ -1,0 +1,263 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/address.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Example: Addressbook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/sorting.html">
+            Sorting the addressbook
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Printing the addressbook</h1>
+
+<p>Now we will learn how to do things with the address book.
+Specifically, we will learn how to print and how to sort the
+addressbook.</p>
+
+<h2>Printing complex structures</h2>
+
+<p>You can still type "<b>puts addressbook</b>", but the 
+output is ugly and not very useful (try it and see for yourself).  
+We would rather define our own way of printing its contents.</p>
+
+<p>The addressbook is an array, so we have the <b>Array#each</b>
+method.  Let's start by just printing the first names of the 
+contacts:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+addressbook.each do |person|
+	puts person["first name"]  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This will print:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Melissa
+Joe
+Sandy
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h3>Full names</h3>
+
+<p>The next step is to print full names:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+addressbook.each do |person|
+    first = person["first name"]  
+    last  = person["last name"]
+    puts first + " " + last
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Which prints:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Melissa Adams
+Joe Smith
+Sandy Koh
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h3>Phone number:</h3>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+addressbook.each do |person|
+    first = person["first name"]
+    last  = person["last name"]
+    phone = person["phone"]
+    
+    puts first + " " + last + ":"  
+    puts "    " + phone
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Output:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Melissa Adams:
+    (301) 364-8924
+Joe Smith:
+    (301) 345-9837
+Sandy Koh:
+    (301) 354-2975
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h3>Address</h3>
+
+<p>Finally add the address and a sepparation between the entries.
+</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+addressbook.each do |person|
+
+    #  Name and phone.  
+    first = person["first name"]
+    last  = person["last name"]
+    phone = person["phone"]
+
+    puts first + " " + last + ":"
+    puts "    " + phone
+   
+
+    # Address
+    street = person["address"]["street"]  
+    city   = person["address"]["city"]
+    state  = person["address"]["state"]
+    zip    = person["address"]["zip"]
+
+    puts "    " + street
+    puts "    " + city
+    puts "    " + state + ", " + zip
+
+
+    # A blank line to sepparate entries.  
+    puts ""
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Which produces:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Melissa Adams:
+    (301) 364-8924
+    23 St George St.
+    Silver Spring
+    MD, 20465
+
+Joe Smith:
+    (301) 345-9837
+    43 Main St. W
+    Washington
+    DC, 29847
+
+Sandy Koh:
+    (301) 354-2975
+    324 Campus Dr.
+    College Park
+    MD, 23659
+
+                       </pre>
+                       </td>
+                       </tr>
+                       </table>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/address.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Example: Addressbook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/sorting.html">
+            Sorting the addressbook
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

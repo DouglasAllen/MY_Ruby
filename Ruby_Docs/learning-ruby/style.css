@@ -1,0 +1,86 @@
+/* Set a background image that doesnt' scroll.  */
+body 
+{
+background-image:      url("topaz_background.jpg");
+background-repeat:     no-repeat;
+background-attachment: fixed;
+background-position:   center
+}
+
+h1 { margin-left: 10%;}
+
+
+/* Ordered Lists -- for the table of contents. */
+
+/* Possible values: decimal, lower-roman, upper-roman,
+ * lower-alpha and upper-alpha */
+ol.chapters { list-style-type: upper-roman }
+ol.sections { list-style-type: decimal     }
+
+/* Tables */
+
+table { border: medium solid #606090; padding: 2px }
+table.code  { border-style: none }
+table.small { 
+            width: 60%; 
+            margin-left: 20%;
+            }
+th.padding { 
+            text-align: left;
+            padding-left:  1cm;  
+            padding-right: 0cm;
+            padding-bottom:0cm;
+            padding-top:   0cm;
+           }
+td.padding { 
+            padding-left:  1cm;  
+            padding-right: 0cm;
+            padding-bottom:0cm;
+            padding-top:   0cm;
+           }
+th { font-size: 150% }
+
+/* What I really want is to center the images, and margins
+ * just don't cut it for me.
+ *
+ * img { margin-left: 6% }
+ * img.large { margin-left: 0% }
+ */
+
+dt { font-weight: bold }
+
+tr.header { background: rgb(200,200,250) }
+tr.tip    { background: rgb(204,204,255) }
+tr.note   { background: rgb(204,255,204) }
+tr.warning{ background: rgb(255,214,214) }
+
+tr.red    { background: rgb(255,204,204) }
+tr.green  { background: rgb(204,255,204) }
+tr.blue   { background: rgb(214,214,255) }
+
+td { vertical-align: top; }
+td.header { background: rgb(200,200,250) }
+td.green  { background: rgb(204,255,204) }
+td.red    { background: rgb(255,214,214) }
+td.title  { padding-top: 10px; font-weight: bold }
+
+th.green  { color: rgb(0,235,0) }
+th.red    { color: rgb(235,0,0) }
+
+a:link    { color: blue }
+/* a:visited { color: rgb(240,70,70)  } */
+a:hover   { background: rgb(200,200,200) }
+
+/* Warnings, notes, and tips */
+p.warning { background: rgb(255,170,170);
+            margin-left: 10%;
+            margin-right:10%;
+          }
+
+
+/* Computer code. */
+b         { font-family: monospace }
+code      { font-family: monospace; background: rgb(200,200,250) }
+pre.code  { font-family: monospace; background: rgb(200,200,250) }
+pre.shell { background: rgb(255,224,224) }
+

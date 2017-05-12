@@ -1,0 +1,7 @@
+#--init
+--require 'win32console'  # PATH               Require a file.
+#-I PATH                    #Specify PATH to add to $LOAD_PATH (may be used more than once).
+--color
+--format nested
+#--version
+#--help

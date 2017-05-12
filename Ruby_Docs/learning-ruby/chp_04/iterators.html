@@ -1,0 +1,312 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/addressbook.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Implementing AddressBook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/features.html">
+            More features
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Writing iterators</h1>
+
+<p>In this section we are going to add our very own iterators
+to the class <b>AddressBook</b>.  We will create two iterators,
+<b>AddressBook#each</b> and <b>AddressBook#each_address</b>,
+which can be used as usual:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+address_book.each do |person|
+    ...
+end
+
+address_book.each_address do |address|  
+    ...
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Calling a block</h2>
+
+<p>When you write a function or method, you can call a code block
+with the <b>yield</b> keyword.  Here is an example.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+def twice
+    yield
+    yield
+end
+
+twice { puts "Hello World" }  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This prints:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Hello World
+Hello World
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+
+<h2>Passing parameters</h2>
+
+<p>You can use <b>yield</b> like any other method.  To pass 
+parameters to the code block, you simply pass them to yield.
+Take this example:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+def names
+    yield("Joe")
+    yield("Sandy")
+    yield("Melissa")
+end
+
+names do |name|
+    puts "Hello " + name + ", how are you?"  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This prints:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Hello Joe, how are you?  
+Hello Sandy, how are you?
+Hello Melissa, how are you?  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>You can pass as many parameters to the block as you like.
+For instance:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+def full_names
+    yield("Joe", "Smith")
+end
+
+full_names do |first,last|
+    puts first + " " + last  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Prints:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Joe Smith  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2><b>AddressBook#each</b></h2>
+
+<p>Now we can write our first iterator.  <b>AddressBook#each</b>
+is the simplest of the two iterators.  We step through every
+person in the array <b>@persons</b> and call <b>yield</b> on each one.
+</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class AddressBook
+    def each
+        @persons.each { |p| yield p }  
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>That's it.  Now your class has an iterator.</p>
+
+<h2><b>AddressBook#each_address</b></h2>
+
+<p>This iterator is almost as simple as the one we just wrote.
+We go through each person and pass in their address.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class AddressBook
+    def each_address
+        @persons.each { |p| yield p.address }  
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Wrap up</h2>
+
+<p>Just to wrap up everything up to now.  Here is the entire class
+<b>AddressBook</b> together with comments.  It is a fairly complex
+piece of code, but by splitting the task into smaller parts we
+have made it more manageable.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class AddressBook
+    #
+    #  Fundamental methods: initialize, add, remove
+    #
+    def initialize
+        @persons = []
+    end
+    def add(person)
+        @persons += [person]
+        @persons = @persons.sort{|a,b| by_name(a,b)}  
+    end
+    def remove(person)   
+        @address.delete(person)
+    end
+     
+
+    #
+    #  Iterators:  each, each_address
+    #
+    def each
+        @persons.each { |p| yield p }
+    end
+    def each_address
+        @persons.each { |p| yield p.address }
+    end
+        
+    #  
+    #  Sorting function.
+    #
+    def by_name(a,b)
+        if  a.first_name  == b.first_name
+            a.last_name  <=> b.last_name
+        else
+            a.first_name <=> b.first_name
+        end 
+    end
+end
+                       </pre>
+                       </td>
+                       </tr>
+                       </table>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/addressbook.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Implementing AddressBook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/features.html">
+            More features
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

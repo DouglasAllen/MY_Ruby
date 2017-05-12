@@ -1,0 +1,280 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/address2.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Printing the addressbook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/tips.html">
+            Writing good programs
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Sorting the addressbook</h1>
+
+<p>We chose to represent the addressbook as an array because
+arrays have an associated <em>order</em>.  Say that we want 
+to change that order.  Suppose, for instance, that we want to 
+sort the array alphabecially.  How do we do that?</p>
+
+<h2>A second look at <b>Array#sort</b></h2>
+
+<p>We have already used <b>Array#sort</b> to sort strings and
+integers.  But how can we sort a more complex structure?</p>
+
+<p>When the default behaviour is not what you want, <b>Array#sort</b>
+allows you to <em>tell it</em> how to sort the data structure.
+Let's start with an example simpler than the addressbook:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends = [
+    [ "Joe", "Smith" ],
+    [ "Melissa", "Adams"],  
+    [ "Sandy", "Koh" ]
+]
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>We know that, by defalt, <b>Array#sort</b> will sort by
+the first entry - in this case, first names.  But say that we
+want to sort by <em>last names</em> instead.
+<b>Array#sort</b> is not an iterator, but just like iterators
+it allows you to give it a block of code.  Like so:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends.sort do |a,b|  
+    ...
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>What this code should do is:</p>
+
+<ul>
+<li>Return -1 if <b>a</b> is less than <b>b</b></li>
+<li>Return  0 if <b>a</b> is equal to  <b>b</b></li>
+<li>Return  1 if <b>a</b> is greater than <b>b</b></li>
+</ul>
+
+<p>With this information, the sort function knows how to sort
+your array.</p>
+
+<h3>Return values</h3>
+
+<p>How do you "return" a value?  The return value is simply 
+the value of the last statement executed.  Let's take another
+look at <b>irb</b></p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> num = 3
+=> 3
+>> 2 + 3
+=> 5
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>That <b>=> 3</b> and that <b>=> 5</b> are the return values
+of those expressions.</p>
+
+<h3>The <b><=></b> operator.</h3>
+
+<p>Sorting is so common, that there is an operator to simplyfy
+return values.  The operator <b><=></b> returns the -1, 0, or 1 that
+you would normally have received.  Try it in <b>irb</b></p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> 3 <=> 1  # 3 > 1 so <=> returns 1
+=> 1
+>> 3 <=> 3  # 3 == 3 so <=> returns 0
+=> 0
+>> 3 <=> 5  # 3 < 5 so <=> returns -1
+=> -1
+>> "andy" <=> "sam" # "andy" comes before "sam"  
+=> -1
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h3>Sorting by last name</h3>
+
+<p>So we have:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends.sort do |a,b|  
+    ...
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p><b>a</b> and <b>b</b> are elements of the array <b>friends</b>.
+The usual "<b>friends.sort</b>" is equivalent to:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends.sort do |a,b|  
+    a[0] <=> b[0]   # Sort by first entry  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>But we want to sort by the <em>second</em> entry (last name).
+So, instead we do:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+friends = friends.sort do |a,b|  
+    a[1] <=> b[1]   # Sort by second entry  
+end
+# Now 'friends' is sorted by last name.
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Sorting the addressbook</h2>
+
+<p>Now that we understand <b>Array#sort</b> better, we are ready
+to use a customized sort of the addressbook.  We have:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+addressbook.sort do |person_a, person_b|  
+    ...
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p><b>person_a</b> and <b>person_b</b> are both person structures.
+We can, for instance, sort them alphabetically by first name.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# p_a == "person a"
+addressbook.sort do |p_a, p_b|
+    p_a["first name"] <=> p_b["first name"]  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Exercises</h2>
+
+<ul>
+<li><p>Write down the code to sort <b>addressbook</b> by <strong>
+    full name</strong>.  That is, first name, then last.</p></li>
+</ul>    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/address2.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Printing the addressbook
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/tips.html">
+            Writing good programs
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

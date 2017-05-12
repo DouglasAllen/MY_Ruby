@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushRuby.min.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.min.css" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeRDark.min.css" />
+</head>
+<body>
+ <div id="highlighter_788549" class="syntaxhighlighter  ruby">
+  <table cellpadding="0" cellspacing="0" border="0">
+   <tbody>
+    <tr>
+     <td class="gutter">
+      <div class="line number1 index0 alt2">1</div>
+      <div class="line number2 index1 alt1">2</div>
+      <div class="line number3 index2 alt2">3</div>
+      <div class="line number4 index3 alt1">4</div>
+      <div class="line number5 index4 alt2">5</div>
+      <div class="line number6 index5 alt1">6</div>
+      <div class="line number7 index6 alt2">7</div>
+      <div class="line number8 index7 alt1">8</div>
+      <div class="line number9 index8 alt2">9</div>
+     </td>
+     <td class="code">
+      <div class="container">
+       <div class="line number1 index0 alt2">
+        <code class="ruby comments"># my_rack_app.rb</code>
+       </div>
+       <div class="line number2 index1 alt1">&nbsp;</div>
+       <div class="line number3 index2 alt2">
+        <code class="ruby plain">require </code>
+        <code class="ruby string">'rack'</code>
+       </div>
+       <div class="line number4 index3 alt1">&nbsp;</div>
+       <div class="line number5 index4 alt2">
+        <code class="ruby plain">app = </code>
+        <code class="ruby color1">Proc</code>
+        <code class="ruby plain">.</code>
+        <code class="ruby keyword">new</code> 
+        <code class="ruby keyword">do</code> 
+        <code class="ruby plain">|env|</code>
+       </div>
+       <div class="line number6 index5 alt1">
+        <code class="ruby spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>
+        <code class="ruby plain">[</code>
+        <code class="ruby string">'200'</code>
+        <code class="ruby plain">, {</code>
+        <code class="ruby string">'Content-Type'</code>
+        <code class="ruby plain">=&gt; </code>
+        <code class="ruby string">'text/html'</code>
+        <code class="ruby plain">}, [</code>
+        <code class="ruby string">'A barebones rack app.'</code>
+        <code class="ruby plain">]]</code>
+       </div>
+       <div class="line number7 index6 alt2">
+        <code class="ruby keyword">end</code>
+       </div>
+       <div class="line number8 index7 alt1">&nbsp;</div>
+       <div class="line number9 index8 alt2">
+        <code class="ruby plain">Rack::Handler::WEBrick.run app</code>
+       </div>
+      </div>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+ </div> 
+</body>
+</html>

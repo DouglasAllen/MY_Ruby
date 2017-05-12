@@ -1,0 +1,11 @@
+config:
+  name:
+  - me
+  description:
+  - blank
+  username:
+  - him
+  password:
+  - hashed
+  theme:
+  - datamapper

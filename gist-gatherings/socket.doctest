@@ -1,0 +1,17 @@
+doctest: require 'socket'
+>> require 'socket'
+
+doctest: class Addrinfo #family_addrinfo(*args) test one
+>> Addrinfo.tcp("0.0.0.0", 4649).family_addrinfo("www.ruby-lang.org", 80)
+#=> #<Addrinfo: 54.235.116.125:80 TCP (www.ruby-lang.org)>
+
+doctest: class Addrinfo #family_addrinfo(*args) test two
+>> Addrinfo.unix("/tmp/sock").family_addrinfo("/tmp/sock2")
+=> #<Addrinfo: /tmp/sock2 SOCK_STREAM>
+
+doctest: class Addrinfo #connect_from(*args, &block)
+>> klass = Addrinfo.tcp("www.ruby-lang.org", 80)
+>> data = klass.connect_from("0.0.0.0", 4648)
+>> block = lambda {|s| s.print "GET / HTTP/1.0\r\nHost: www.ruby-lang.org\r\n\r\n"; puts s.read }
+>> data
+!!!

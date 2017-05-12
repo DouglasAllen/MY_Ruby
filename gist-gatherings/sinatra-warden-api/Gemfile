@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'sinatra_warden'
+gem 'data_mapper'
+gem 'sequel'
+gem 'slim'
+gem 'sqlite3'
+gem 'rack-flash'
+

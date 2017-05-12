@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>Installing Ruby</title>
+</head>
+<body>
+
+<h1>Getting and Installing Ruby.</h1>
+
+<p>These are just brief instructions on getting and installing Ruby.
+If you have trouble, contact the Ruby mailing list and ask for help.</p>
+
+<p>There are instructions for <a href="#linux">Linux</a>, 
+<a href="#mac">Mac OS X</a>, <a href="#freebsd">FreeBSD</a>,
+<a href="#source">UNIX</a>, and <a href="#windows">Windows</a>.</p>
+
+<h1><a name="linux">Linux</a></h1>
+
+<p>Most Linux distributions come with Ruby pre-installed.  If you 
+don't already have it, here is how to get it:</p>
+
+<table cellpadding="3" cellspacing="3">
+<tr>
+  <td valign="top"><strong>RPM install</strong></td>
+  <td>Download an RPM from <a href="http://rpmfind.net/linux/rpm2html/search.php?query=Ruby">RPM Find</a> and install with <br />
+      <tt># rpm -Uhv ruby-*.rpm</tt>
+  </td>
+</tr>
+<tr>
+  <td><strong>Gentoo Linux</strong></td>
+  <td><tt># emerge ruby</tt></td>
+</tr>
+<tr>
+  <td><strong>Debian Linux</strong></td>
+  <td><tt># apt-get install ruby</tt></td>
+</tr>
+<tr>
+  <td><strong>Source</strong></td>
+  <td>Go to the <a href="#source">Source</a> section.</td>
+</tr>
+</table>
+
+<h1><a name="mac">Mac OS X</a></h1>
+
+<p>Mac OS X comes with Ruby pre-installed.  If you don't have it, you
+can get a binary from <a href="http://www.apple.com/downloads/macosx/unix_open_source/rubyprogramminglanguage.html">the Apple download site</a>.</p>
+
+<p>To install from source, go to the <a href="#source">Source</a> section.</p>
+
+<h1><a name="freebsd">FreeBSD</a></h1>
+
+<p>Ruby is part of the FreeBSD ports collection.  You  can install it
+with:<br />
+<tt>
+# cd /usr/ports/lang/ruby<br />
+# make && make install
+</tt>
+</p>
+
+<h1><a name="source">Source</a> (good for all UNIX)</h1>
+
+<p>As of this writing, the latest source was 
+<a href="ftp://ftp.ruby-lang.org/pub/ruby/ruby-1.6.8.tar.gz">
+ruby-1.6.8.tar.gz</a>. 
+You can get a preview of the upcomming version 1.8.0 at 
+<a href="ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.0-preview1.tar.gz">
+ruby-1.8.0-preview1.tar.gz</a></p>
+
+<p>To install, just do the usual: <br />
+<tt>
+# configure; make; make install
+</tt>
+</p>
+
+<p>You can get the latest source at <a href="http://www.ruby-lang.org">
+http://www.ruby-lang.org</a></p>
+
+<h1><a name="windows">Windows</a></h1>
+
+<p>As of this writing, the latest version available was 1.6.8.
+Just download 
+<a href="http://rubyinstaller.sourceforge.net/ruby168-8.exe">
+Ruby168-8.exe</a> and run the installer.
+
+<p>You can find the latest version at 
+<a href="http://rubyinstaller.sourceforge.net/">
+http://rubyinstaller.sourceforge.net/</a></p>
+
+</body>
+</html>

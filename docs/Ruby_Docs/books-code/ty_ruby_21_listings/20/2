@@ -1,7 +1,0 @@
-#!/usr/local/bin/ruby
-
-print "Content-type: text/html\r\n\r\n"
-
-puts "<html><body>"
-puts "Current time: <b>#{Time.now}</b><br>"
-puts "</body></html>"

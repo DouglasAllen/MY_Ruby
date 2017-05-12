@@ -1,0 +1,335 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/functions.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Functions
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/classes2.html">
+            More on classes
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Classes and methods</h1>
+
+<p>Now we are ready to create our very own <b>Address</b> class.
+Let's start simple.  Let's start with an address that only
+contains the "street" field.</p>
+
+<p>This is how you define a class:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    def initialize(street)  
+        @street = street 
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Let's go through this:</p>
+
+<ul>
+<li><p>The <b>class</b> keyword defines a class.</p></li>
+<li><p>By defining a method inside this class, we are associating it 
+    with this class.</p></li>
+<li><p>The <b>initialize</b> method is what actually constructs
+    the data structure.  Every class <strong>must</strong>
+    contain an <b>initialize</b> method.</p></li>
+<li><p><b>@street</b> is an object variable.  Similar to the keys
+    of a hash.
+    The <b>@</b> sign distinguishes <b>@street</b>
+    as an object variable. Every time you create an object of the 
+    class <b>Address</b>, this object will contain a <b>@street</b>
+    variable.</p></li>
+</ul>
+
+<p>Let's use this class to create an address object.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+address = Addres.new("23 St George St.")  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>That's it.  <b>address</b> is now an object of the class
+<b>Address</b></p>
+
+<h2>Reading the data in an object</h2>
+
+<p>Suppose that we want to read the data in the <b>address</b> object.
+To do this, we need to write a method that returns this data:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    def initialize(street)   
+        @street = street 
+    end
+
+    # Just return @street
+    def street
+        @street
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now the method <b>Address#street</b> lets you read the street
+of the address.  In <b>irb</b>:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> address.street 
+=> "23 St George St."
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>A property of an object, which is visible outside, is called
+an <em>attribute</em>.  In this case, <b>street</b> is is an attribute.
+In particular, it is a <em>readable attribute</em>.  Because this kind
+of attribute is very common, Ruby offers you a shortcut through the 
+<b>attr_reader</b> keyword:</p>
+
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    attr_reader :self
+    def initialize(street)   
+        @street = street 
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Changing the data in an object</h2>
+
+<p>We can also define a method to change the data in an object.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    attr_reader :street
+    def initialize(street)  
+        @street = street 
+    end
+    def street=(street)
+        @street = street
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Ruby is pretty smart in its use of the <b>street=</b> method:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+address.street = "45 Main St."
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Notice that you can put spaces betten <b>street</b> and <b>=</b>.
+Now that we can change the address data, we can simplify the
+<b>initialize</b> method, and have it simply default the
+street to the empty string "".</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    attr_reader :street
+    def initialize
+        @street = ""
+    end
+    def street=(street)
+        @street = street  
+    end
+end
+
+address = Address.new
+address.street = "23 St George St."  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This might not seem like much of a simplification, but when we
+add the city, state and zip fields, and more methods this will
+make the class definition a bit simpler.</p>
+
+<p>Now, <b>street</b> is also a <em>writable attribute</em>.  As before, 
+you can declare it as such with <b>attr_writer</b>:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    attr_reader :street
+    attr_writer :street  
+    def initialize
+        @street = ""
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Accessing data</h2>
+
+<p>Very often, you have attributes that are both readable and writable
+attributes.  Ruby lets you lump these together with <b>attr_accessor</b>.
+I guess these would be called "accessible attributes", but I have never
+seen them be called that.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    attr_accessor :street  
+    def initialize
+        @street = ""
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>With this knowledge, it is now easy to define the entire
+addressbook structure.  As it turns out, <b>attr_accessor</b> and
+friends all accept multiple arguments.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class Address
+    attr_accessor :street, :city, :state, :zip  
+    def initialize
+        @street = @city = @state = @zip = ""
+    end
+end
+                       </pre>
+                       </td>
+                       </tr>
+                       </table>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/functions.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Functions
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/classes2.html">
+            More on classes
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

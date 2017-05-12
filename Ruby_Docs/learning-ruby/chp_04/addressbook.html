@@ -1,0 +1,390 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/classes2.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        More on classes
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/iterators.html">
+            Writing iterators
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Implementing AddressBook</h1>
+
+<p>Now that we have the classes <b>Address</b> and <b>Person</b>,
+let's move on to create <b>AddressBook</b>.</p>
+
+<h2>First step</h2>
+<p>The first step is very simple.  <b>AddressBook</b> has an 
+array which contains all our contacts.  We will not use
+<b>attr_accessor</b> because we don't want the user to access
+this array directly.  We will write our own access methods.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class AddressBook
+    def initialize
+        # Empty array.  
+        @persons = []
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>That was easy enough.  Let's add two access methods: 
+<b>AddressBook#add</b> and <b>AddressBook#remove</b></p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class AddressBook
+    def initialize
+        @persons = []  
+    end
+    def add(person)
+        @persons += [person]  
+    end
+    def remove(person)
+        # Use Array#delete
+        @persons.delete(person)  
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>The <b>Array#delete</b> method will delete all the entries
+that match the given input.  For example:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> a = [ 1, 3, 3, 3, 3, 5]  
+=> [1, 3, 3, 3, 3, 5]
+>> a.delete(3)
+=> 3
+>> a
+=> [1, 5]
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Since <b>@persons</b> is an array, we can use 
+<b>Array#delete</b></p>
+
+<h1>Automatic sorting</h1>
+
+<p>Now we are going to add a very neat feature to our <b>AddressBook</b>
+class: automatic sorting.  What I mean by that is what when you type:
+</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+addr_book = AddressBook.new  
+
+addr_book.add mary
+addr_book.add joe
+addr_book.add sandy
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>All the entries will be sorted automatically.  This feature makes
+our class much better than a regular array.  Now, let's look at
+this task one step at a time.</p>
+
+<h3>How do we sort an array?</h3>
+
+<p>We want to sort the array alphabetically by first name, then last.
+In the section <a href="../chp_03/sorting.html">Sorting the addressbook
+</a> had something like this:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# p_a == "person a"
+addressbook.sort do |p_a, p_b|
+    p_a["first name"] <=> p_b["first name"]  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Let's adapt this to our class <b>AddressBook</b>:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+@persons.sort do |a, b|
+    a.first_name <=> b.first_name  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>If you did the exercises of this section, you also know how to
+sort by <strong>full names</strong>.  Here is one way to do it:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+@persons.sort do |a, b|
+    if  a.first_name  == b.first_name  
+        a.last_name  <=> b.last_name
+    else
+        a.first_name <=> b.first_name  
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>If the first names are the same, we compare the last names.
+Otherwise, we compare the first names.</p>
+
+<h3>Simplifying things.</h3>
+
+<p>The basis of simplification is to divide the problem into
+smaller components.  Let's start by putting the code block in
+a method:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+def by_name(a,b)
+    if  a.first_name  == b.first_name  
+        a.last_name  <=> b.last_name
+    else
+        a.first_name <=> b.first_name  
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now we can write:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+@persons.sort do |a, b|  
+    by_name(a,b)
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This is much shorter.  Now, you will learn something about
+code blocks.  In addition to the notation:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+@persons.sort do |a, b|  
+    ...
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>You can also write:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+@persons.sort { |a, b|  
+    ...
+}
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>The two notations mean exactly the same thing.  The difference
+is that the <b>do...end</b> notation is more clear, and the 
+<b>{...}</b> notation is shorter.  But the sort notation means
+that you can write:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+@persons.sort { |a, b| by_name(a,b) }  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>You can almost read this as "sort by name".  This is very 
+readable code.  I suggest that, for now, you only use the 
+<b>{...}</b> notation when you can put everything in one line.</p>
+
+<h3>Finishing off</h3>
+
+<p>Now it's time to put this into our <b>AddressBook</b> class and
+and implement our auto-sort feature.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+class AddressBook
+    def add(person)
+        @persons += [person]  
+        @persons = @persons.sort{|a,b| by_name(a,b)} 
+    end
+
+    def by_name(a,b)
+        if  a.first_name  == b.first_name  
+            a.last_name  <=> b.last_name
+        else
+            a.first_name <=> b.first_name  
+        end
+    end
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now, whenever you add a person, the addressbook gets sorted 
+automatically.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+book.add sandy
+book.add joe
+book.add mary
+book.add melissa
+
+# 'book' is sorted.  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/classes2.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        More on classes
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/iterators.html">
+            Writing iterators
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

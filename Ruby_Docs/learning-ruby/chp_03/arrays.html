@@ -1,0 +1,199 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/about.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        About this chapter
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/array_methods.html">
+            What can arrays do?
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Arrays</h1>
+
+<p>You are already familiar with a couple of Ruby classes (<b>Integer</b> and
+<b>String</b>).  The class <b>Array</b> is used to represent a <em>collection
+</em> of items.</p>
+
+<p>This is best seen through an example:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+$ irb --simple-prompt 
+>> numbers = [ "zero", "one", "two", "three", "four" ]  
+=> ["zero", "one", "two", "three", "four"]
+>> numbers.class 
+=> Array
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Here the <b>class</b> method tells us that the variable <b>numbers</b>
+is an <b>Array</b>.  You can access the individual elements of the
+array like this:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> numbers[0] 
+=> "zero"
+>> numbers[1]
+=> "one"
+>> numbers[4]
+=> "four"
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>You can add more entries to the array by simply typing:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> numbers[5] = "five"
+=> "five"
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Notice that the entries in the array are stored sequentially, starting
+at 0.  An array can contain any number of objects.  The objects contained in
+the array can be manipulated just as before.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> numbers[3].class
+=> String
+>> numbers[3].upcase
+=> "THREE"
+>> numbers[3].reverse 
+=> "eerht"
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>
+<table cellspacing="0">
+<tr class="warning">
+<td>
+<strong>Warning:</strong>
+Notice that <b>Array</b>'s start counting at 0, not 1
+</td>
+</tr>
+</table>
+</p>
+
+<p>What kind of things can you put on arrays?  Well, any object really.
+How about strings and integers?:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> address = [ 284, "Silver Spring Rd" ]
+=> [284, "Silver Spring Rd"]
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>How about another array?</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> addresses = [ [ 284, "Silver Sprint Rd" ], [ 344, "Ontario Dr" ] ]
+=> [[284, "Silver Sprint Rd"], [344, "Ontario Dr"]]
+>> addresses[0]
+=> [284, "Silver Sprint Rd"]
+>> addresses[1]
+=> [344, "Ontario Dr"]
+>> addresses[0][0]
+=> 284
+>> addresses[0][1]
+=> "Silver Sprint Rd"
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Can you see why arrays are so cool?</p>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/about.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        About this chapter
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/array_methods.html">
+            What can arrays do?
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,4 @@
+doctest: This is the first test.  Is this document up to date with the code?
+>> RubyDocTest::SpecialDirective::NAMES
+=> ["doctest:", "it:", "!!!", "doctest_require:"]
+!!!

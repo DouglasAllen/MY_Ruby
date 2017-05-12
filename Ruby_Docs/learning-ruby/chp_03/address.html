@@ -1,0 +1,222 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/hashes.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Hashes
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/address2.html">
+            Printing the addressbook
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Example: Addressbook</h1>
+
+<p>In this section we will construct an small addressbook containing
+contact information for three friends: Joseph, Melissa and Sandy.</p>
+
+<p>An addressbook is a fairly complex structure.  It contains several
+contacts, and each one has an associated name, address and so on.</p>
+
+<p>Our strategy will be to split the problem into simpler ones.</p>
+
+<h2>First step: requirements</h2>
+
+<p>First, we should figure out what kind of information our
+address book should have:</p>
+
+<ol>
+<li><p>The address book contains a group of <strong>contacts
+    </strong>.  We should be able to sort these contacts 
+    alphabetically.</p></li>
+<li><p>Each contact has a first name, last name, phone number
+    and an <strong>address</strong>.</p></li>
+<li><p>Each address contains a street, city, state and zip
+    code.</p></li>
+</ol>
+
+<p>We are going to tackle these starting and the address structure
+and finishing the the addressbook.</p>
+
+<h2>Second step: <strong>address</strong></h2>
+
+<p>We have a couple of choices for the address structure:</p>
+
+<ol>
+<li><p><b>Array</b>: It is customary that the street goes first, 
+    then city, then state and last the zip code.  So an array 
+    might work.</p></li>
+<li><p><b>Hash</b>: It is easier to remember something like
+    <b>address["zip"]</b> than <b>address[2]</b>.  So, a hash 
+    might be easier to use.</p></li>
+</p>
+</ol>
+
+<p>In this case, I will pick a hash.  So, the three addresses
+would be:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# Melissa's address
+melissa_addr = {
+	"street" => "23 St George St.",  
+	"city"   => "Silver Spring",
+	"state"  => "MD",
+	"zip"    => "20465"
+}
+
+# Sandy's address
+sandy_addr = {
+	"street" => "324 Campus Dr.",
+	"city"   => "College Park",
+	"state"  => "MD",
+	"zip" 	 => "23659"
+}
+
+# Joe's address
+joe_addr = {
+	"street" => "43 Main St. W",
+	"city"   => "Washington",
+	"state"  => "DC",
+	"zip"    => "29847"
+}
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+
+<h2>Third step: Persons</h2>
+
+<p>Each person has a first name, last name, a phone number and
+an address.  There is no obvious order for these items, so
+we definitelly need a hash.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# Joe
+joe = {
+	"first name" => "Joe",
+	"last name"  => "Smith",
+	"phone"	     => "(301) 345-9837",
+	"address"    => joe_addr
+}
+
+# Melissa
+melissa = {
+	"first name" => "Melissa",
+	"last name"  => "Adams",
+	"phone"      => "(301) 364-8924",  
+	"address"    => melissa_addr
+}
+
+# Sandy
+sandy = {
+	"first name" => "Sandy",
+	"last name"  => "Koh",
+	"phone"      => "(301) 354-2975",
+	"address"    => sandy_addr
+}
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Fourth step: Addressbook</h2>
+
+<p>Now that we have all the other structures defined, it is time
+to create the addressbook.  We want the addressbook to retain
+a particular order.  Thus, we must use an array:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+addressbook = [ melissa, joe, sandy ]  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>And there we are.  A complete addressbook structure.
+In the next section we will learn how to sort this addressbook
+and do some other nifty things with it.</p>
+
+<p>
+<table cellspacing="0">
+<tr class="note">
+<td>
+<strong>Note:</strong> 
+Make sure that you save all of this in a file.  We are going to
+keep using it in the next few sections.
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Excercises</h2>
+
+<ol>
+<li><p>Add one of your own friends to this addressbook.</p></li>
+<li><p>Change the addressbook so that it also contains 
+    an email address.</p></li>
+</ol>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/hashes.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Hashes
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/address2.html">
+            Printing the addressbook
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

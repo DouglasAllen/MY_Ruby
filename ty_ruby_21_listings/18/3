@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+# Ruby/Gtk version of the anagram tester.
+
+require 'gtk' ; include Gtk
+
+# Create a main window with one vertical box.
+window = Window.new
+window.set_title 'Gtk Anagram Test'
+window.border_width 10
+window.signal_connect('destroy') {main_quit}
+window.add(vb = VBox.new)
+
+# Put some horizontal boxes in the vbox.
+vb.add(phrase1box = HBox.new(false,10))
+vb.add(phrase2box = HBox.new(false,10))
+vb.add(resultbox = HBox.new(true,10))
+vb.add(buttonbox = HBox.new(true,10))
+
+# Add the visible widgets to the hboxes.
+phrase1box.add(Label.new("Phrase 1"))
+phrase1box.add(e1 = Entry.new)
+phrase2box.add(Label.new("Phrase 2"))
+phrase2box.add(e2 = Entry.new)
+resultbox.border_width 4
+resultbox.add(l_result = Label.new(''))
+buttonbox.add(b_test  = Button.new('Test'))
+buttonbox.add(b_clear = Button.new('Clear'))
+buttonbox.add(b_quit  = Button.new('Quit'))
+
+# Say what should happen when the buttons get clicked.
+b_quit.signal_connect('clicked') do
+  main_quit
+end
+b_clear.signal_connect('clicked') do
+  [e1, e2, l_result].each {|widget| widget.set_text('')}
+  e1.grab_focus
+end
+b_test.signal_connect('clicked') do
+  if are_anagrams?(e1.get_text, e2.get_text)
+    l_result.set_text("These are anagrams.")
+  else
+    l_result.set_text("These are NOT anagrams.")
+  end
+  b_clear.grab_focus
+end
+
+# Set up an anagram test that returns a Boolean.
+def are_anagrams?(s1, s2)
+  chars1, chars2 = [s1,s2].map do |str|
+    str.delete("^A-Za-z").downcase.split('').sort.join
+  end
+  return (chars1 == chars2)
+end
+
+# Place the cursor and interact with the user.
+e1.grab_focus
+window.show_all
+
+main  # it's not a method of ours, but Gtk::main

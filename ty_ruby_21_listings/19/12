@@ -1,0 +1,22 @@
+# Start three threads.
+
+["Tom", "Dick", "Harry"].each  do |label|
+  new_thread = Thread.new(label) do |me|
+    counter = 1
+    loop do
+      print "#{me}#{counter} "; STDOUT.flush
+      counter += 1
+      sleep 0.4 
+    end
+  end
+end
+
+# Let the other threads run for one second
+sleep 1
+
+# ... then stop them.
+Thread.list.each do |t|
+  t.kill
+end
+
+print "\n AND I ONLY AM ESCAPED ALONE TO TELL THEE \n"

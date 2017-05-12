@@ -1,0 +1,21 @@
+#!/usr/local/bin/ruby
+
+require 'cgi'
+
+page = CGI.new("html3")
+page.out {
+  page.html {
+    page.head { page.title{"Short-term memory"} } +
+      page.body {
+      page.h1 {"Pick a number"} +
+        page.center {
+        page.form {
+          page.popup_menu("choice","one","two","three" ) + " " +
+          page.submit("go")
+        }  +
+          page.hr +
+          "Your previous choice was " + page["choice"].first.to_s
+      } # end centering
+    } # end body
+  } # end html
+} 

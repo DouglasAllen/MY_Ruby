@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>bignum - RDoc Documentation</title>
+
+<style media="screen" type="text/css">
+
+/* @group Source Code */
+
+pre {
+  margin: 0.5em 0;
+  border: 1px dashed #999;
+  padding: 0.5em;
+  background: #262626;
+  color: #80ffff;
+  overflow: auto;
+}
+h1,h2 {
+  margin: 0.5em 0;
+  border: 1px dashed #999;
+  padding: 0.5em;
+  background: #262626;
+  color: #80ff00;
+  overflow: auto;
+}
+h3 {
+  margin: 0.5em 0;
+  border: 1px dashed #999;
+  padding: 0.5em;
+  background: #262626;
+  color: #80ffff;
+  overflow: auto;
+}
+.ruby-constant   { color: #7fffd4; background: transparent; }
+.ruby-keyword    { color: #00ffff; background: transparent; }
+.ruby-ivar       { color: #eedd82; background: transparent; }
+.ruby-operator   { color: #00ffee; background: transparent; }
+.ruby-identifier { color: #ffdead; background: transparent; }
+.ruby-node       { color: #ffa07a; background: transparent; }
+.ruby-comment    { color: #dc0000; background: transparent; }
+.ruby-regexp     { color: #ffa07a; background: transparent; }
+.ruby-value      { color: #7fffd4; background: transparent; }
+
+</style>
+
+<body id="top" role="document" class="file">
+<a href="http://ruby-doc.org/core-2.1.1/Bignum.html">http://ruby-doc.org/core-2.1.1/Bignum.html</a>
+<pre>
+<h1>Class Bignum < Integer</h1>
+<h3>  Bignum objects hold integers outside the range of Fixnum. Bignum objects are 
+created automatically when integer calculations would otherwise overflow a 
+Fixnum. When a calculation involving Bignum objects returns a result that 
+will fit in a Fixnum, the result is automatically converted.
+
+  For the purposes of the bitwise operations and [ ], a Bignum is treated as if it 
+were an infinite-length bitstring with 2’s complement representation.
+
+  While Fixnum values are immediate, Bignum objects are not—assignment and 
+parameter passing work with references to objects, not the objects 
+themselves.</h3>
+<hr>
+<h2>Constants</h2>
+<h3>GMP_VERSION</h3>
+<hr>
+<h2>Public Instance Methods</h2>
+<h3>big % other → Numeric</h3>
+<h3>  Returns big modulo other. See Numeric#divmod for more information.
+  
+(1..10).each {|e| puts e % 10 }</h3>
+<hr>
+<h3>big & numeric → integer</h3>
+<h3>  Performs bitwise and between big and numeric.
+  
+(1..10).each {|e| puts e & 10 }</h3>
+<hr>
+<h3>big * other → Numeric</h3>
+<h3>  Multiplies big and other, returning the result.
+  
+(1..10).each {|e| puts e * 10 }</h3>
+<hr>
+<h3>big ** exponent → numeric</h3>
+<h3>  Raises big to the exponent power (which may be an integer, float, or anything that will
+coerce to a number). The result may be a Fixnum, Bignum, or Float
+
+123456789 ** 2      #=> 15241578750190521
+123456789 ** 1.2    #=> 5126464716.09932
+123456789 ** -2     #=> 6.5610001194102e-17</h3>
+<hr>
+<h3>big + other → Numeric</h3>
+<h3>  Adds big and other, returning the result.
+  
+(1..10).each {|e| puts e + 10 }</h3>
+<hr>
+<h3>big - other → Numeric</h3>
+<h3>  Subtracts other from big, returning the result.
+
+(1..10).each {|e| puts e - 10 }</h3>   
+<hr>
+<h3>-big → integer</h3>
+<h3>  Unary minus (returns an integer whose value is 0-big)
+
+(1..10).each {|e| puts -e }</h3>   
+<hr>
+<h3>big / other → Numeric</h3>
+<h3>  Performs division: the class of the resulting object depends on the class of numeric and on
+the magnitude of the result.
+
+(1..10).each {|e| puts e / 2 }</h3>  
+<hr>
+<h3>big < real → true or false</h3>
+<h3>  Returns true if the value of big is less than that of real.
+
+(1..10).each {|e| puts e < 5 }</h3>   
+<hr>
+<h3>big << numeric → integer</h3>
+<h3>  Shifts big left numeric positions (right if numeric is negative).
+
+(1..10).each {|e| puts e << 5 }</h3>  
+<hr>
+<h3>big <= real → true or false</h3>
+<h3>  Returns true if the value of big is less than or equal to that of real.
+  
+(1..10).each {|e| puts e <= 5 }</h3>
+<hr>
+<h3>big <=> numeric → -1, 0, +1 or nil</h3>
+<h3>  Comparison—Returns -1, 0, or +1 depending on whether big is less than, equal to, or 
+greater than numeric. This is the basis for the tests in Comparable.
+
+nil is returned if the two values are incomparable.
+
+(1..10).each {|e| puts e <=> 5 }</h3>
+<hr>
+<h3>big == obj → true or false</h3>
+<h3>  Returns true only if obj has the same value as big. Contrast this with Bignum#eql?, which
+requires obj to be a Bignum.
+
+68719476736 == 68719476736.0   #=> true</h3>
+<hr>
+<h3>big > real → true or false</h3>
+<h3>  Returns true if the value of big is greater than that of real.
+  
+(1..10).each {|e| puts e > 5 }</h3>
+<hr>
+<h3>big >= real → true or false</h3>
+<h3>  Returns true if the value of big is greater than or equal to that of real.
+  
+(1..10).each {|e| puts e >= 5 }</h3>
+<hr>
+<h3>big >> numeric → integer</h3>
+<h3>  Shifts big right numeric positions (left if numeric is negative).
+  
+(1..10).each {|e| puts e >> 2 }</h3>
+<hr>
+<h3>big[ n ] → 0, 1</h3>
+<h3>  Bit Reference—Returns the nth bit in the (assumed) binary representation of big, where
+big[0] is the least significant bit.
+
+a = 9**15
+50.downto(0) do |n|
+  print a[n]
+end
+
+produces:
+
+000101110110100000111000011110010100111100010111001</h3>
+<hr>
+<h3>big ^ numeric → integer</h3>
+<h3>  Performs bitwise +exclusive or+ between big and numeric.
+  
+(1..10).each {|e| puts e ^ 2 }</h3>
+<hr>
+<h3>big.abs → bignum</h3>
+<h3>  Returns the absolute value of big.
+  
+1234567890987654321.abs #=> 1234567890987654321</h3>
+<hr>
+<h3>bit_length → integer</h3>
+<h3>  Returns the number of bits of the value of int.
+
+“the number of bits” means that the bit position of the highest bit which is different to the
+sign bit. (The bit position of the bit 2**n is n+1.) If there is no such bit (zero or minus one),
+zero is returned.
+
+I.e. This method returns ceil(log2(int < 0 ? -int : int+1)).
+
+(-2**10000-1).bit_length  #=> 10001
+(-2**10000).bit_length    #=> 10000
+(-2**10000+1).bit_length  #=> 10000
+
+(-2**1000-1).bit_length   #=> 1001
+(-2**1000).bit_length     #=> 1000
+(-2**1000+1).bit_length   #=> 1000
+
+(2**1000-1).bit_length    #=> 1000
+(2**1000).bit_length      #=> 1001
+(2**1000+1).bit_length    #=> 1001
+
+(2**10000-1).bit_length   #=> 10000
+(2**10000).bit_length     #=> 10001
+(2**10000+1).bit_length   #=> 10001</h3>
+<hr>
+<h3>coerce(numeric) → array</h3>
+<h3>  Returns an array with both a numeric and a big represented as Bignum objects.
+
+This is achieved by converting numeric to a Bignum.
+
+A TypeError is raised if the numeric is not a Fixnum or Bignum type.
+
+(0x3FFFFFFFFFFFFFFF+1).coerce(42)   #=> [42, 4611686018427387904]</h3>
+<hr>
+<h3>big.div( number ) → other_number</h3>
+<h3>  Synonym for Bignum#/.
+  
+1234567890987654321.div(13731)     #=> 89910996357706
+1234567890987654321.div(13731.0)   #=> 89910996357705.5
+1234567890987654321.div(987654321) #=> 1249999989</h3>
+<hr>
+<h3>big.divmod( number ) → array</h3>
+<h3>  See Numeric#divmod on page 544.
+  
+(1..10).each {|e| puts e.divmod(2) }</h3>
+<hr>
+<h3>big.eql?( obj ) → true or false</h3>
+<h3>  Returns true only if obj is a Bignum with the same value as big. Contrast this with
+Bignum#==, which performs type conversions.
+
+68719476736.eql? 68719476736   #=> true
+68719476736 == 68719476736     #=> true
+68719476736.eql? 68719476736.0 #=> false
+68719476736 == 68719476736.0   #=> true</h3>
+<hr>
+<h3>even? → true or false</h3>
+<h3>  Returns true if big is an even number.
+  
+(1..10).each {|e| puts e.even? }</h3>
+<hr>
+<h3>fdiv(numeric) → float</h3>
+<h3>  Returns the floating point result of dividing big by numeric.
+
+-1234567890987654321.fdiv(13731)      #=> -89910996357705.52
+-1234567890987654321.fdiv(13731.24)   #=> -89909424858035.72</h3>
+<hr>
+<h3>hash → fixnum</h3>
+<h3>  Compute a hash based on the value of big.
+  
+(1..1).each {|e| print e..hash}  #=> 1..2773042</h3>
+<hr>
+<h3>inspect(p1 = v1)</h3>
+</h3>  Alias for: to_s
+  
+(1..1).each {|e| print e.inspect.class }  #=> String</h3>
+<hr>
+<h3>magnitude → aBignum</h3>
+<h3>  Returns the absolute value of big.
+
+-1234567890987654321.magnitude   #=> 1234567890987654321</h3>
+<hr>
+<h3>big.modulo( number ) → number</h3>
+<h3>  Returns big modulo other. See Numeric#divmod for more information.
+  Synonym for Bignum#%.
+  
+(1..10).each {|e| puts e.modulo(2) }</h3>
+<hr>
+<h3>odd? → true or false</h3>
+<h3>  Returns true if big is an odd number.
+  
+(1..10).each {|e| puts e.odd? }</h3>
+<hr>
+<h3>big.quo( number ) → float</h3>
+<h3>  Returns the floating-point result of dividing big by number.
+
+1234567890987654321.quo(13731)     #=> (411522630329218107/4577)
+1234567890987654321.quo(13731.0)   #=> 89910996357705.52
+1234567890987654321.div(987654321) #=> 1249999989</h3>
+<hr>
+<h3>big.remainder( number ) → other_number</h3>
+<h3>  Returns the remainder after dividing big by number.
+  
+1234567890987654321.remainder(13731)    #=> 6966
+1234567890987654321.remainder(13731.24) #=> 9906.22531493148</h3>
+<hr>
+<h3>big.size → integer</h3>
+<h3>  Returns the number of bytes in the machine representation of big.
+  
+(256**10 - 1).size #=> 10
+(256**20 - 1).size #=> 20
+(256**40 - 1).size #=> 40</h3>
+<hr>
+<h3>big.to_f → float</h3>
+<h3>  Converts big to a Float. If big doesn’t fit in a Float, the result is infinity.
+  
+78546939656932.to_f #=> 78546939656932.0</h3>
+<hr>
+<h3>big.to_s( base=10 ) → str</h3>
+<h3>  Returns a string containing the representation of big radix base (2 to 36).
+
+12345654321.to_s        #=> "12345654321"
+12345654321.to_s(2)     #=> "1011011111110110111011110000110001"
+12345654321.to_s(8)     #=> "133766736061"
+12345654321.to_s(16)    #=> "2dfdbbc31"
+12345654321.to_s(26)    #=> "1dp1pc6d"
+78546939656932.to_s(36) #=> "rubyrules"</h3>
+<hr>
+<h3>big | numeric → integer</h3>
+<h3>  Performs bitwise or between big and numeric.
+  
+(1..10).each {|e| puts e | 1 }
+<hr>
+<h3>~big → integer</h3>
+<h3>  Inverts the bits in big. As Bignums are conceptually infinite length, the result acts as if it
+had an infinite number of one bits to the left. In hex representations, this is displayed as
+two periods to the left of the digits.
+
+sprintf("%X", ~0x1122334455)    #=> "..FEEDDCCBBAA"
+sprintf("%B", ~255)             #=> "..100000000"</h3>
+<hr>
+</pre>
+</body>
+</html>

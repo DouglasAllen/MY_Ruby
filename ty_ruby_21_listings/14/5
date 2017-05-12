@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+class Secretive
+  def initialize
+    @r = rand
+  end
+
+  def follow
+    yield @r
+  end
+end
+
+class Inquisitive
+  def getSecret(other)
+    other.follow  {|num| puts "My secret number is #{num}"}
+  end
+end
+
+sec=Secretive.new
+inq=Inquisitive.new
+inq.getSecret(sec)

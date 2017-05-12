@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+# send_via_TCP.rb:
+
+# Sends a line of text, to be received by
+# the get_via_TCP.rb script
+
+require 'socket'
+
+port = 10000
+
+sock = TCPSocket.new("localhost", port)
+sock.puts "Hello, world."
+sock.close

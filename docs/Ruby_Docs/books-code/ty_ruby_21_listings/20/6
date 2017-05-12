@@ -1,9 +1,0 @@
-#!/usr/local/bin/ruby
-
-# Use a regular expression to get the value of
-# the "choice" input into global var $1 ...
-ENV["QUERY_STRING"].split("&").grep(/^choice=(.+)$/)
-
-# ... and print that value to stdout.
-# "to_s" is here because $1 might be nil.
-puts $1.to_s

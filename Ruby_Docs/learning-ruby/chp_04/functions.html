@@ -1,0 +1,279 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/about.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        About this chapter
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/classes.html">
+            Classes and methods
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Functions</h1>
+
+<h2>What is a function?</h2>
+
+<p>A function is a method that is not associated with any particular
+object.  You have already seen one function: "<b>puts</b>".
+Notice the syntax:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+puts "Hello" # instead of: object.puts "Hello"  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Hello World with a function</h2>
+
+<p>Here is a simple function:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+def say_hi
+    puts "Hello, How are you?"  
+end
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now we have defined the function <b>say_hi</b>.  When you call the
+function "<b>say_hi</b>", the block of code you specified gets called.
+For example:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+def say_hi
+    puts "Hello, How are you?"  
+end
+
+say_hi
+say_hi
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Will produce:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+"Hello, How are you?"
+"Hello, How are you?"
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>As you can see, functions are the first step in code reuse.</p>
+
+<h2>Function parameters</h2>
+
+<p>Functions and methods can be passed parameters.  Here is an improved
+<b>say_hi</b> function.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# 'name' contains the user input
+def say_hi(name)
+    puts "Hello " + name + ", How are you?"  
+end
+
+say_hi("Daniel")
+say_hi "Sandy" 
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>This produces:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Hello Daniel, How are you?  
+Hello Sandy, How are you?
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Printing an address</h2>
+
+<p>Now let's write a more useful function.  Recall the address 
+structures:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+# Melissa's address
+melissa_addr = {
+	"street" => "23 St George St.",  
+	"city"   => "Silver Spring",
+	"state"  => "MD",
+	"zip"    => "20465"
+}
+
+# Sandy's address
+sandy_addr = {
+	"street" => "324 Campus Dr.",
+	"city"   => "College Park",
+	"state"  => "MD",
+	"zip" 	 => "23659"
+}
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Let's make a function to print them:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+def print_addr(address)
+    state = address["state"]
+    zip   = address["zip"]
+
+    puts "    " + address["street"]  
+    puts "    " + address["city"]
+    puts "    " + state ", " + zip
+end
+                       </pre>                       
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Now we can easily print addresses with:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+puts "Melissa:"
+print_addr(melissa_addr)  
+
+puts "Sandy:"
+print_addr(sandy_addr)
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>And this prints:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="shell">
+
+Melissa:
+    23 St George St.  
+    Silver Spring
+    MD, 20465
+Sandy:
+    324 Campus Dr.
+    College Park
+    MD, 23659
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_04/about.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        About this chapter
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_04/classes.html">
+            Classes and methods
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

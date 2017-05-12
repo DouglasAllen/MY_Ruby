@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+require 'gtk'; include Gtk
+
+class BurgerSelector < Window
+  def initialize
+    super()
+    add(vb = VBox.new)
+    vb.add(hb = HBox.new)
+
+    hb.add(meats = VBox.new)
+    meats.add(rb_beef = RadioButton.new(nil,'Beef'))
+    meats.add(rb_turkey = RadioButton.new(rb_beef,'Turkey'))
+    meats.add(rb_soy = RadioButton.new(rb_turkey,'Soy'))
+    rb_soy.active = true
+
+    hb.add(extras = VBox.new)
+    extras.add(cb_lettuce = CheckButton.new('Lettuce'))
+    extras.add(cb_onion = CheckButton.new('Onion'))
+    extras.add(cb_tomato = CheckButton.new('Tomato'))
+
+    vb.add(buttons = HBox.new)
+    buttons.add(b_order = Button.new('Order'))
+    buttons.add(b_quit = Button.new('Quit'))
+
+    vb.add(results = HBox.new)
+    results.add(l_results = Label.new(' '*70))
+
+    b_quit.signal_connect('clicked') {destroy}
+    b_order.signal_connect('clicked') do
+      order = if rb_beef.active? then "Beef"
+             elsif rb_turkey.active? then "Turkey"
+             else "Soy"
+             end
+      order += ", lettuce" if cb_lettuce.active?
+      order += ", onion" if cb_onion.active?
+      order += ", tomato" if cb_tomato.active?
+      l_results.set_text order
+    end
+
+    show_all
+  end
+end
+
+if $0 == __FILE__
+  window = BurgerSelector.new
+  window.set_title 'Burger stand'
+  window.signal_connect('destroy') {main_quit}
+  main
+end

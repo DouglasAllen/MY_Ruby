@@ -1,3 +1,0 @@
-<html><body>
-Date: <b><!--#exec cmd="./print-time.rb" --></b><br>
-<body></html>

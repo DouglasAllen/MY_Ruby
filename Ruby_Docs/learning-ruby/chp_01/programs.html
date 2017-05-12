@@ -1,0 +1,199 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_01/variables.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Variables
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_01/tips.html">
+            Writing good programs
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>Your first program</h1>
+
+<p>Congratulations!  Now that you have made it this far, you are 
+ready to start writing programs.</p>
+
+<h2>Hello World</h2>
+
+<p>Grab a text editor and type in the following:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+puts "Hello World"
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Save the file as <b>hello.rb</b> and run it by typing</p>
+<pre>
+<b>ruby hello.rb</b>
+</pre>
+
+<center><img class="large" src="programs/01.gif" /></center>
+
+<p><b>puts</b> is named so because it will <strong>put</strong> an 
+object as a <strong>S</strong>tring.  The line gets printed to the 
+terminal.</p>
+
+<p>Here is another example:</p>
+
+<center><img class="large" src="programs/02.gif" /></center>
+
+<p>Notice what we did.  <b>name</b> is a string.  Therefore, it can be 
+added to other strings, like we saw earlier.</p>
+
+<p>
+<table cellspacing="0">
+<tr class="note">
+<td>
+<strong>Note:</strong>
+When you make a Ruby program, only the lines with <b>puts</b> will be
+printed to the screen.
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Another example</h2>
+
+<p>In the last chapter we typed this in <b>irb</b>:</p>
+
+<center><img src="programs/03.gif" /></center>
+
+<p>Put this into one file.  Save it and run it.</p>
+
+<center><img class="large" src="programs/04.gif" /></center>
+
+<p>Suppose that we want the computer to say "The answer is 20".
+We can't type this:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+puts "The answer is " + num2  # --> Error  
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>We can only add strings to strings.  Therefore, we need to convert 
+the integer <b>num2</b> to a string.  We know that we can do this with
+the <b>Integer#to_s</b> method:</p>
+
+<center><img class="large" src="programs/05.gif" /></center>
+
+<h2>Making programs executable</h2>
+
+<p>If you are running Linux or Unix, you can make your Ruby
+programs executable, so they can be run like any other program.</p>
+
+<p>First, you need to know where Ruby is installed in your system.
+Type '<b>which ruby</b>' on a terminal:</p>
+
+<center><img src="programs/06.gif" /></center>
+
+<p>Precede this by '<b>#!</b>' (pronounced "sharp bang") and make 
+that the very first line of your program.</p>
+
+<center><img src="programs/07.gif" /></center>
+
+<p>Now you can type '<b>chmod +x prog.rb</b>' to make the program
+executable ('<b>+x</b>' means "executable").</p>
+
+<center><img src="programs/08.gif" /></center>
+
+<p>
+<table>
+<tr class="warning">
+<td>
+<strong>Warning: </strong>
+Make sure that you type this <em>exactly</em> and that it's the very
+<em>first</em> line of your program.
+<ul>
+<li>If there is a blank line above this one, this won't work.</li>
+<li>If there is a space before the '<b>#!</b>',this won't work.</li>
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Exercises</h2>
+
+<ol>
+  <li><p>Redo the excercises of the previous section.  But this
+      time as programs instead of using <b>irb</b>.</p>
+  </li>
+  <li><p>Finish the following program:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+name = "Daniel"
+age = 24
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+      <p>So that the program prints "Daniel is 24 years old".</p>
+</ol>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_01/variables.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Variables
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_01/tips.html">
+            Writing good programs
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>

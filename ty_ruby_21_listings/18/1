@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'gtk'
+
+win = Gtk::Window.new
+win.set_title('First Ruby/Gtk application')
+win.signal_connect('destroy') {exit}
+win.show_all
+
+Gtk::main
+puts 'All done.'

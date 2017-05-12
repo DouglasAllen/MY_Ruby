@@ -1,0 +1,15 @@
+<html><head><title>eruby test</title></head>
+<body>
+
+  <h1>Environment variables</h1>
+  <table>
+  <%
+     ENV.each_pair {|key,value|
+       printf "<tr><td>%s</td><td>%s</td></tr>\n",
+         key, value
+     }
+   %>
+  </table>
+
+</body>
+</html>

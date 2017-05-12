@@ -1,0 +1,240 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Learning Ruby</title>
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/arrays.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Arrays
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/iterators.html">
+            Iterators
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+<h1>What can arrays do?</h1>
+
+<p>This is all very nice, but can I do anything cool with arrays?  You sure can.
+</p>
+
+<h3><b>Array#sort</b></h3>
+
+<p>You can sort arrays with the method <b>Array#sort</b>.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> primes = [ 11, 5, 7, 2, 13, 3 ]
+=> [11, 5, 7, 2, 13, 3]
+>> primes.sort 
+=> [2, 3, 5, 7, 11, 13]
+>> 
+?> names = [ "Melissa", "Daniel", "Samantha", "Jeffrey"]  
+=> ["Melissa", "Daniel", "Samantha", "Jeffrey"]
+>> names.sort
+=> ["Daniel", "Jeffrey", "Melissa", "Samantha"]
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h3><b>Array#reverse</b></h3>
+
+<p>You can reverse arrays:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> names
+=> ["Melissa", "Daniel", "Samantha", "Jeffrey"]
+>> names.reverse 
+=> ["Jeffrey", "Samantha", "Daniel", "Melissa"]
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h3><b>Array#length</b></h3>
+
+<p>You can find out how long the array is:</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> names.length 
+=> 4
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h3>Array arithmetic</h3>
+
+<p>The methods <b>Array#+</b>, <b>Array#-</b>, and <b>Array#*</b> work the way
+that you would expect.  There is no <b>Array#/</b> (how would you divide an 
+array?)</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> names = [ "Melissa", "Daniel", "Jeff" ]
+=> ["Melissa", "Daniel", "Jeff"]
+>> names + [ "Joel" ] 
+=> ["Melissa", "Daniel", "Jeff", "Joel"]
+>> names - [ "Daniel" ]
+=> ["Melissa", "Jeff"]
+>> names * 2
+=> ["Melissa", "Daniel", "Jeff", "Melissa", "Daniel", "Jeff"]
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Naturally, their friends <b>+=</b>, <b>-=</b> and <b>*=</b> are still with 
+us.</p>
+
+<h3>Printing arrays</h3>
+
+<p>Finally, you can print arrays.</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> names
+=> ["Melissa", "Daniel", "Jeff"]
+>> puts names 
+Melissa
+Daniel
+Jeff
+=> nil
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<p>Remember that the <b>nill</b> means that <b>puts</b> returns nothing.
+What do you think happens if you try to convert an array to a string
+with <b>Array#to_s</b>?</p>
+
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> names
+=> ["Melissa", "Daniel", "Jeff"]  
+>> names.to_s
+=> "MelissaDanielJeff"
+>> primes
+=> [11, 5, 7, 2, 13, 3]
+>> primes.to_s
+=> "11572133"
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+
+<h2>Exercises</h2>
+
+<ol>
+  <li><p>What do you think that this will do?:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> addresses = [ [ 285, "Ontario Dr"], [ 17, "Quebec St"], [ 39, "Main St" ] ]
+>> addresses.sort
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+      <p>How about this?:</p>
+                   <!-- Pick a small width so the table has to
+                        expand and just fits the required size. -->
+                   <table class="code" width="10%">
+                   <tr>
+                   <td>
+                   <pre class="code">
+
+>> addresses = [ [ 20, "Ontario Dr"], [ 20, "Main St"] ]
+>> addresses.sort
+                       </pre>
+
+                       </td>
+                       </tr>
+                       </table>
+      <p>Try these out in <b>irb</b>
+  </li>
+</ol>    <table width="100%" border="0">
+    <tr>
+      <td align="left" width="43%">
+        <a href="../chp_03/arrays.html">
+            <img src="../left_arrow.gif" alt="<-" border="0" />
+	        Arrays
+        </a>
+      </td>
+      <td align="center" width="10%"> 
+		<a href="../index.html">
+		<img src="../up_arrow.gif" alt="" border="0" /><br />
+		<!-- Home -->
+		</a>
+      </td>
+      <td align="right" width="47%">
+        <a href="../chp_03/iterators.html">
+            Iterators
+            <img src="../right_arrow.gif" alt="->" border="0" />
+        </a>
+      </td>
+    </tr>
+    </table>
+</body>
+</html>
